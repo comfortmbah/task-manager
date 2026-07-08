@@ -25,7 +25,10 @@ const CompletedTasks = () => {
         </p>
 
         {completedTasks.length === 0 ? (
-          <EmptyState />
+          <EmptyState
+            title={'No Completed Tasks'}
+            message={'Complete a task to see it here.'}
+          />
         ) : (
           <TodoList
             todos={completedTasks}

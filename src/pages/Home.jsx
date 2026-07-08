@@ -47,7 +47,10 @@ const Home = () => {
         </form>
 
         {todos.length === 0 ? (
-          <EmptyState />
+          <EmptyState
+            title={'No Tasks Yet'}
+            message={'Add your first task to get started.'}
+          />
         ) : (
           <TodoList 
             todos={todos}

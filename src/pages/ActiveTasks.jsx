@@ -25,7 +25,10 @@ const ActiveTasks = () => {
         </p>
 
         {activeTasks.length === 0 ? (
-          <EmptyState />
+          <EmptyState 
+            title={'No Active Tasks'}
+            message={"You're all caught up!"}
+          />
         ) : (
           <TodoList
             todos={activeTasks}
