@@ -1,4 +1,4 @@
-
+import PropTypes from "prop-types"
 
 const EmptyState = ({ title, message }) => {
   return (
@@ -13,5 +13,10 @@ const EmptyState = ({ title, message }) => {
     </div>
   )
 }
+
+EmptyState.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
 
 export default EmptyState
