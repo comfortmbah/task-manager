@@ -34,6 +34,14 @@ const Home = () => {
     ))
   };
 
+  function handleToggle(id) {
+    setTodos((currentTodos) => {
+      return currentTodos.map((todo) => 
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      );
+    })
+  };
+
   return (
     <div>Home</div>
   )
