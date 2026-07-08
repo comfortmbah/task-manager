@@ -28,6 +28,12 @@ const Home = () => {
     setTask("");
   }
 
+  function handleDelete(id) {
+    setTodos((currentTodos) => currentTodos.filter(
+      (todo) => todo.id !== id
+    ))
+  };
+
   return (
     <div>Home</div>
   )
