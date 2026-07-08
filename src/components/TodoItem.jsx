@@ -2,7 +2,7 @@
 
 const TodoItem = ({ todo, onDelete, onToggle }) => {
   return (
-    <article 
+    <div 
       className="flex items-center justify-between rounded-xl border border-slate-200
       bg-white p-4 shadow-sm transition hover:shadow-md"
     >
@@ -27,7 +27,7 @@ const TodoItem = ({ todo, onDelete, onToggle }) => {
       >
         Delete
       </button>
-    </article>
+    </div>
   )
 }
 
