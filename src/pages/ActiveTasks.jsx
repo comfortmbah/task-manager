@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router-dom"
 import TodoList from "../components/TodoList"
 import EmptyState from "../components/EmptyState"
+import { useEffect } from "react"
 
 const ActiveTasks = () => {
   const {
@@ -10,6 +11,10 @@ const ActiveTasks = () => {
   } = useOutletContext();
 
   const activeTasks = todos.filter((todo) => !todo.completed);
+
+  useEffect(() => {
+    document.title = "TaskFlow | Active Tasks"
+  }, []);
 
 
   return (

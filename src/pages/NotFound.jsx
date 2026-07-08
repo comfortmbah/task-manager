@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const NotFound = () => {
+
+  useEffect(() => {
+    document.title = "TaskFlow | Page Not Found"
+  }, []);
+  
   return (
     <section className='flex min-h-[70vh] items-center justify-center'>
       <div className='text-center'>
