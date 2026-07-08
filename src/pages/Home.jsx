@@ -11,6 +11,7 @@ const Home = () => {
     handleSubmit,
     handleDelete,
     handleToggle,
+    handleClearCompleted
   } = useOutletContext();
 
   const activeTasks = todos.filter((todo) => !todo.completed).length;
@@ -33,6 +34,15 @@ const Home = () => {
           activeTasks={activeTasks}
           completedTasks={completedTasks}
         />
+
+        <button
+          onClick={handleClearCompleted}
+          disabled={!todos.some((todo) => todo.completed)}
+          className="rounded-lg bg-red-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-red-600
+            disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Clear Completed
+        </button>
 
         <form
           onSubmit={handleSubmit}

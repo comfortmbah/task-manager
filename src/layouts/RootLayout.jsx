@@ -45,6 +45,14 @@ const RootLayout = () => {
     })
   };
 
+  function handleClearCompleted() {
+    const confirmClear = window.confirm("Are you sure you want to clear all completed tasks?");
+    if (!confirmClear) return
+    setTodos((currentTodos) => 
+      currentTodos.filter((todo) => !todo.completed)
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-100">
 
@@ -58,7 +66,8 @@ const RootLayout = () => {
             todos,
             handleSubmit,
             handleDelete,
-            handleToggle
+            handleToggle,
+            handleClearCompleted
           }}
         />
       </main>
