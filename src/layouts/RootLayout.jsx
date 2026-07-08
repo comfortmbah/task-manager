@@ -32,6 +32,9 @@ const RootLayout = () => {
   }
 
   function handleDelete(id) {
+    const confirmDelete = window.confirm("Are you sure you want to delete this task?")
+    if (!confirmDelete) return;
+    
     setTodos((currentTodos) => currentTodos.filter(
       (todo) => todo.id !== id
     ))
