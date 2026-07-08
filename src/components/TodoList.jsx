@@ -6,6 +6,7 @@ const TodoList = ({ todos, onDelete, onToggle }) => {
         {todos.map((todo) => (
             <TodoItem
               key={todo.id}
+              todo={todo}
               onDelete={onDelete}
               onToggle={onToggle}
             />
