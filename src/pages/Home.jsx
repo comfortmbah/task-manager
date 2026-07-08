@@ -1,6 +1,7 @@
 import TodoList from "../components/TodoList";
 import EmptyState from "../components/EmptyState";
 import { useOutletContext } from "react-router-dom";
+import TaskSummary from "../components/TaskSummary";
 
 const Home = () => {
   const {
@@ -11,6 +12,9 @@ const Home = () => {
     handleDelete,
     handleToggle,
   } = useOutletContext();
+
+  const activeTasks = todos.filter((todo) => !todo.completed).length;
+  const completedTasks = todos.filter((todo) => todo.completed).length;
   
   return (
     <section className="mx-auto max-w-3xl">
@@ -23,6 +27,12 @@ const Home = () => {
           {todos.length} Task
           {todos.length !== 1 && "s"}
         </p>
+
+        <TaskSummary 
+          totalTasks={todos.length}
+          activeTasks={activeTasks}
+          completedTasks={completedTasks}
+        />
 
         <form
           onSubmit={handleSubmit}
