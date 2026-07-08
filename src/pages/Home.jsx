@@ -10,8 +10,24 @@ const Home = () => {
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
   }, [todos]);
-
   
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const trimmedTask = task.trim();
+    if (!trimmedTask) return;
+
+    const newTodo = {
+      id: Date.now(),
+      text: trimmedTask,
+      completed: false,
+    };
+
+    setTodos((currentTodos) => [ ...currentTodos, newTodo]);
+
+    setTask("");
+  }
+
   return (
     <div>Home</div>
   )
