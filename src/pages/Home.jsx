@@ -46,7 +46,7 @@ const Home = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="mb-6 flex flex-col gap-3 sm:flex-row"
+          className="mb-6 flex flex-col gap-3 sm:flex-row mt-4"
         >
           <input 
             type="text"
