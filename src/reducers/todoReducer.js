@@ -1,8 +1,11 @@
 // todoReducer.js
 
-export const initialTodos = [];
+export const initialTodos = () => {
+  const savedTodos = localStorage.getItem("todos");
+  return savedTodos ? JSON.parse(savedTodos) : [];
+};
 
-export function todoReducer(state = initialTodos, action) {
+export function todoReducer(state, action) {
   switch (action.type) {
     case "ADD_TODO": {
       const trimmedTask = action.payload.trim();
