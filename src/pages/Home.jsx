@@ -1,6 +1,6 @@
 import TodoList from "../components/TodoList";
 import EmptyState from "../components/EmptyState";
-import { useOutletContext } from "react-router-dom";
+import { useTodo } from "../context/TodoContext";
 import TaskSummary from "../components/TaskSummary";
 import { useEffect } from "react";
 
@@ -13,7 +13,7 @@ const Home = () => {
     handleDelete,
     handleToggle,
     handleClearCompleted
-  } = useOutletContext();
+  } = useTodo();
 
   useEffect(() => {
     document.title = "TaskFlow | Home";
