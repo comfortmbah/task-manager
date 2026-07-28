@@ -1,14 +1,15 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useReducer } from "react";
+import  todoReducer  from "../reducers/todoReducer";
 
 const RootLayout = () => {
   const [task, setTask] = useState("");
-  const [todos, setTodos] = useState(() => {
+  const [todos, dispatch] = useReducer(todoReducer, [], () => {
     const savedTodos = localStorage.getItem("todos");
     return savedTodos ? JSON.parse(savedTodos) : [];
   })
+   
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -20,13 +21,10 @@ const RootLayout = () => {
     const trimmedTask = task.trim();
     if (!trimmedTask) return;
 
-    const newTodo = {
-      id: Date.now(),
-      text: trimmedTask,
-      completed: false,
-    };
-
-    setTodos((currentTodos) => [ ...currentTodos, newTodo]);
+    dispatch({
+      type: "ADD_TASK",
+      payload: trimmedTask,
+    });
 
     setTask("");
   }
@@ -35,25 +33,27 @@ const RootLayout = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this task?")
     if (!confirmDelete) return;
     
-    setTodos((currentTodos) => currentTodos.filter(
-      (todo) => todo.id !== id
-    ))
+    dispatch({
+      type: "DELETE_TASK",
+      payload: id,
+    });
+
   };
 
   function handleToggle(id) {
-    setTodos((currentTodos) => {
-      return currentTodos.map((todo) => 
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      );
+    dispatch({
+      type: "TOGGLE_TASK",
+      payload: id,
     })
   };
 
   function handleClearCompleted() {
     const confirmClear = window.confirm("Are you sure you want to clear all completed tasks?");
     if (!confirmClear) return
-    setTodos((currentTodos) => 
-      currentTodos.filter((todo) => !todo.completed)
-    )
+    
+    dispatch({
+      type: "CLEAR_COMPLETED",
+    })
   }
 
   return (
