@@ -18,7 +18,7 @@ export default function todoReducer(todos, action) {
                   ? { ...todo, completed: !todo.completed } : todo
             );
 
-        case "CLEAR-COMPLETED":
+        case "CLEAR_COMPLETED":
             return todos.filter((todo) => !todo.completed);
         
         default: 
