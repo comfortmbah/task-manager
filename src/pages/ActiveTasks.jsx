@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom"
+import { useTodo } from "../context/TodoContext"
 import TodoList from "../components/TodoList"
 import EmptyState from "../components/EmptyState"
 import { useEffect } from "react"
@@ -8,7 +8,7 @@ const ActiveTasks = () => {
     todos,
     handleDelete,
     handleToggle,
-  } = useOutletContext();
+  } = useTodo();
 
   const activeTasks = todos.filter((todo) => !todo.completed);
 
