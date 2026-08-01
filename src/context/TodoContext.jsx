@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useReducer, useEffect } from 'react'
+import { createContext, useContext, useState, useReducer, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
 
@@ -6,6 +6,7 @@ import todoReducer from '../reducers/todoReducer'
 const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
+  const inputRef = useRef(null);
   const [task, setTask] = useState("");
   const [todos, dispatch] = useReducer(todoReducer, [], () => {
       const savedTodos = localStorage.getItem("todos");
@@ -29,6 +30,8 @@ export const TodoProvider = ({ children }) => {
       });
   
       setTask("");
+
+      inputRef.current.focus();
     }
   
     function handleDelete(id) {
@@ -68,6 +71,7 @@ export const TodoProvider = ({ children }) => {
         handleDelete,
         handleToggle,
         handleClearCompleted,
+        inputRef,
       }}
     >
       {children}

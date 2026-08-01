@@ -12,7 +12,8 @@ const Home = () => {
     handleSubmit,
     handleDelete,
     handleToggle,
-    handleClearCompleted
+    handleClearCompleted,
+    inputRef,   
   } = useTodo();
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const Home = () => {
         >
           <input 
             type="text"
+            ref={inputRef}
             placeholder="Add a new task..."
             value={task}
             onChange={(e) => setTask(e.target.value)}
