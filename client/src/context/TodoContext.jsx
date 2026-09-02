@@ -49,9 +49,15 @@ export const TodoProvider = ({ children }) => {
       inputRef.current.focus();
     }
   
-    function handleDelete(id) {
+    async function handleDelete(id) {
       const confirmDelete = window.confirm("Are you sure you want to delete this task?")
       if (!confirmDelete) return;
+
+      const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) return;
       
       dispatch({
         type: "DELETE_TASK",
