@@ -16,9 +16,6 @@ export default function todoReducer(todos, action) {
             return todos.map((todo) => 
                 todo.id === action.payload.id ? action.payload : todo
             );
-
-        case "CLEAR_COMPLETED":
-            return todos.filter((todo) => !todo.completed);
         
         default: 
           return todos;
