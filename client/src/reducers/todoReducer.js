@@ -14,8 +14,7 @@ export default function todoReducer(todos, action) {
         
         case "TOGGLE_TASK":
             return todos.map((todo) => 
-                todo.id === action.payload
-                  ? { ...todo, completed: !todo.completed } : todo
+                todo.id === action.payload.id ? action.payload : todo
             );
 
         case "CLEAR_COMPLETED":

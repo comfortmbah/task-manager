@@ -60,10 +60,16 @@ export const TodoProvider = ({ children }) => {
   
     };
   
-    function handleToggle(id) {
+    async function handleToggle(id) {
+      const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+        method: "PATCH",
+      });
+
+      const updatedTodo = await response.json();
+
       dispatch({ 
         type: "TOGGLE_TASK",
-        payload: id,
+        payload: updatedTodo,
       })
     };
   
