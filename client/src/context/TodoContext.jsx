@@ -8,15 +8,15 @@ const TodoContext = createContext();
 export const TodoProvider = ({ children }) => {
   const inputRef = useRef(null);
   const [task, setTask] = useState("");
-  const [todos, dispatch] = useReducer(todoReducer, [], () => {
-      const savedTodos = localStorage.getItem("todos");
-      return savedTodos ? JSON.parse(savedTodos) : [];
+  const [todos, dispatch] = useReducer(todoReducer, [])
+    
+  useEffect(() => {
+    fetch("http://localhost:5000/api/todos")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
     })
-     
-  
-    useEffect(() => {
-      localStorage.setItem("todos", JSON.stringify(todos))
-    }, [todos]);
+  }, []);
     
     function handleSubmit(e) {
       e.preventDefault();
