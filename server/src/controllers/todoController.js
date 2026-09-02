@@ -26,3 +26,20 @@ export const createTodo = (req, res) => {
 
   res.status(201).json(newTodo);
 }
+
+export const updateTodo = (req, res) => {
+  const { id } = req.params;
+  const todos = getTodos();
+
+  const todo = todos.find((todo) => todo.id === Number(id)); 
+
+  if (!todo) {
+    return res.status(404).json({
+      message: "Todo not found",
+    });
+  }
+
+  todo.completed = !todo.completed;
+
+  res.json(todo);
+}
