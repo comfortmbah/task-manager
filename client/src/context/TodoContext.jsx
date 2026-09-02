@@ -79,12 +79,21 @@ export const TodoProvider = ({ children }) => {
       })
     };
   
-    function handleClearCompleted() {
+    async function handleClearCompleted() {
       const confirmClear = window.confirm("Are you sure you want to clear all completed tasks?");
       if (!confirmClear) return
+
+      const response = await fetch("http://localhost:5000/api/todos/completed", {
+        method: "DELETE",
+      });
+
+      if (!response.ok) return;
+
+      const remainingTodos = await response.json();
       
       dispatch({
-        type: "CLEAR_COMPLETED",
+        type: "SET_TODOS",
+        payload: remainingTodos,
       })
     }
 
