@@ -1,5 +1,8 @@
 export default function todoReducer(todos, action) {
     switch (action.type) {
+        case "SET_TODOS": 
+            return action.payload;
+            
         case "ADD_TASK":
             return [
               ...todos, {

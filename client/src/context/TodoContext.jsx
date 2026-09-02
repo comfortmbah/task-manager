@@ -14,8 +14,11 @@ export const TodoProvider = ({ children }) => {
     fetch("http://localhost:5000/api/todos")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-    })
+      dispatch({
+        type: "SET_TODOS",
+        payload: data,
+      });
+    });
   }, []);
     
     function handleSubmit(e) {
