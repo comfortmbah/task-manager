@@ -18,6 +18,9 @@ export const TodoProvider = ({ children }) => {
         type: "SET_TODOS",
         payload: data,
       });
+    })
+    .catch((error) => {
+      console.error(error);
     });
   }, []);
     
