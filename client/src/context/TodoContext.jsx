@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useReducer, useEffect, useRef } fr
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
 import { API_URL } from '../api/todosApi';
-import { getTodos, createTodo, updateTodo } from '../api/todosApi';
+import { getTodos, createTodo, updateTodo, deleteTodo } from '../api/todosApi';
 
 
 const TodoContext = createContext();
@@ -51,17 +51,16 @@ export const TodoProvider = ({ children }) => {
       const confirmDelete = window.confirm("Are you sure you want to delete this task?")
       if (!confirmDelete) return;
 
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-      });
+      try {
+        await deleteTodo(id);
 
-      if (!response.ok) return;
-      
-      dispatch({
-        type: "DELETE_TASK",
-        payload: id,
-      });
-  
+        dispatch({
+          type: "DELETE_TASK",
+          payload: id,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     };
   
     async function handleToggle(id) {
