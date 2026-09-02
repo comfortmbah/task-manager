@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useReducer, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
-import { API_URL } from '../api/todosApi';
-import { getTodos, createTodo, updateTodo, deleteTodo } from '../api/todosApi';
+import { getTodos, createTodo, updateTodo, deleteTodo, deleteCompletedTodos } from '../api/todosApi';
 
 
 const TodoContext = createContext();
@@ -78,20 +77,18 @@ export const TodoProvider = ({ children }) => {
   
     async function handleClearCompleted() {
       const confirmClear = window.confirm("Are you sure you want to clear all completed tasks?");
-      if (!confirmClear) return
+      if (!confirmClear) return;
 
-      const response = await fetch(`${API_URL}/completed`, {
-        method: "DELETE",
-      });
+      try {
+        const remainingTodos = await deleteCompletedTodos();
 
-      if (!response.ok) return;
-
-      const remainingTodos = await response.json();
-      
-      dispatch({
-        type: "SET_TODOS",
-        payload: remainingTodos,
-      })
+        dispatch({
+          type: "SET_TODOS",
+          payload: remainingTodos,
+        })
+      } catch (error) {
+        console.error(error);
+      }
     }
 
   return (
@@ -117,7 +114,15 @@ TodoProvider.propTypes = {
 }
 
 export function useTodo() {
-    return useContext(TodoContext);
+  const context = useContext(TodoContext);
+
+  console.log("TodoContext:", context);
+
+  if (context === undefined) {
+    throw new Error("useTodo must be used inside TodoProvider");
+  }
+
+  return context;
 }
 
   

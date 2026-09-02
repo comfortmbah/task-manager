@@ -50,3 +50,15 @@ export async function deleteTodo(id) {
 
   return response.json();
 }
+
+export async function deleteCompletedTodos() {
+  const response = await fetch(`${API_URL}/completed`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to clear completed todos");
+  }
+
+  return response.json();
+}
