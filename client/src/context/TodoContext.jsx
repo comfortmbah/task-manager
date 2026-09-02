@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useReducer, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
+import { API_URL } from '../api/todosApi';
 
 
 const TodoContext = createContext();
@@ -11,7 +12,7 @@ export const TodoProvider = ({ children }) => {
   const [todos, dispatch] = useReducer(todoReducer, [])
     
   useEffect(() => {
-    fetch("http://localhost:5000/api/todos")
+    fetch(API_URL)
     .then((response) => response.json())
     .then((data) => {
       dispatch({
@@ -30,7 +31,7 @@ export const TodoProvider = ({ children }) => {
       const trimmedTask = task.trim();
       if (!trimmedTask) return;
 
-      const response = await fetch("http://localhost:5000/api/todos", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
