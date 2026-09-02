@@ -2,14 +2,11 @@ export default function todoReducer(todos, action) {
     switch (action.type) {
         case "SET_TODOS": 
             return action.payload;
-            
+
         case "ADD_TASK":
             return [
-              ...todos, {
-                id: Date.now(),
-                text: action.payload.trim(),
-                completed: false,
-              },
+              ...todos, 
+              action.payload,
             ];
         
         case "DELETE_TASK":

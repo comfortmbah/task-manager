@@ -21,15 +21,27 @@ export const TodoProvider = ({ children }) => {
     });
   }, []);
     
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
       e.preventDefault();
   
       const trimmedTask = task.trim();
       if (!trimmedTask) return;
+
+      const response = await fetch("http://localhost:5000/api/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: trimmedTask,
+        }),
+      });
+
+      const newTodo = await response.json();
   
       dispatch({
         type: "ADD_TASK",
-        payload: trimmedTask,
+        payload: newTodo,
       });
   
       setTask("");
