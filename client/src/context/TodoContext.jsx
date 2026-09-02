@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useReducer, useEffect, useRef } fr
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
 import { API_URL } from '../api/todosApi';
+import { getTodos } from '../api/todosApi';
 
 
 const TodoContext = createContext();
@@ -12,8 +13,7 @@ export const TodoProvider = ({ children }) => {
   const [todos, dispatch] = useReducer(todoReducer, [])
     
   useEffect(() => {
-    fetch(API_URL)
-    .then((response) => response.json())
+    getTodos()
     .then((data) => {
       dispatch({
         type: "SET_TODOS",
