@@ -12,7 +12,7 @@ const todos = [
   {
     id: 3,
     text: "Connect React to Express",
-    completed: TextTrackCue,
+    completed: true,
   },
 ];
 
