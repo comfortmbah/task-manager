@@ -56,5 +56,14 @@ export const deleteTodo = (req, res) => {
   }
 
   const deletedTodo = todos.splice(todoIndex, 1);
-  res.json(deleteTodo[0]);
+  res.json(deletedTodo[0]);
+}
+
+export const deleteCompletedTodo = (req, res) => {
+  const todos = getTodos();
+  const remainigTodos = todos.filter((todo) => !todo.completed);
+  todos.length = 0;
+  todos.push(...remainigTodos);
+
+  res.json(todos);
 }
