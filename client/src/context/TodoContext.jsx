@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useReducer, useEffect, useRef } fr
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
 import { API_URL } from '../api/todosApi';
-import { getTodos } from '../api/todosApi';
+import { getTodos, createTodo } from '../api/todosApi';
 
 
 const TodoContext = createContext();
@@ -31,24 +31,18 @@ export const TodoProvider = ({ children }) => {
       const trimmedTask = task.trim();
       if (!trimmedTask) return;
 
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: trimmedTask,
-        }),
-      });
+      try {
+        const newTodo = await createTodo(trimmedTask);
 
-      const newTodo = await response.json();
+        dispatch({
+          type: "ADD_TASK",
+          payload: newTodo,
+        });
   
-      dispatch({
-        type: "ADD_TASK",
-        payload: newTodo,
-      });
-  
-      setTask("");
+        setTask("");
+      } catch (error) {
+        console.error(error);
+      }
 
       inputRef.current.focus();
     }
