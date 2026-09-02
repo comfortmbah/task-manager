@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useReducer, useEffect, useRef } fr
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
 import { API_URL } from '../api/todosApi';
-import { getTodos, createTodo } from '../api/todosApi';
+import { getTodos, createTodo, updateTodo } from '../api/todosApi';
 
 
 const TodoContext = createContext();
@@ -65,16 +65,16 @@ export const TodoProvider = ({ children }) => {
     };
   
     async function handleToggle(id) {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "PATCH",
-      });
+      try {
+        const updatedTodo = await updateTodo(id);
 
-      const updatedTodo = await response.json();
-
-      dispatch({ 
-        type: "TOGGLE_TASK",
-        payload: updatedTodo,
-      })
+        dispatch({ 
+          type: "TOGGLE_TASK",
+          payload: updatedTodo,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     };
   
     async function handleClearCompleted() {

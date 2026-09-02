@@ -26,3 +26,15 @@ export async function createTodo(text) {
 
   return response.json();
 }
+
+export async function updateTodo(id) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "PATCH",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update todo");
+  }
+
+  return response.json();
+}
