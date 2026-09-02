@@ -57,7 +57,7 @@ export const TodoProvider = ({ children }) => {
       const confirmDelete = window.confirm("Are you sure you want to delete this task?")
       if (!confirmDelete) return;
 
-      const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+      const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
 
@@ -71,7 +71,7 @@ export const TodoProvider = ({ children }) => {
     };
   
     async function handleToggle(id) {
-      const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+      const response = await fetch(`${API_URL}/${id}`, {
         method: "PATCH",
       });
 
@@ -87,7 +87,7 @@ export const TodoProvider = ({ children }) => {
       const confirmClear = window.confirm("Are you sure you want to clear all completed tasks?");
       if (!confirmClear) return
 
-      const response = await fetch("http://localhost:5000/api/todos/completed", {
+      const response = await fetch(`${API_URL}/completed`, {
         method: "DELETE",
       });
 
