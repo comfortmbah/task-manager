@@ -43,3 +43,18 @@ export const updateTodo = (req, res) => {
 
   res.json(todo);
 }
+
+export const deleteTodo = (req, res) => {
+  const { id } = req.params;
+  const todos = getTodos();
+
+  const todoIndex  = todos.findIndex((todo) => todo.id === Number(id));
+  if (todoIndex === -1) {
+    return res.status(404).json({
+      message: "Todo not found"
+    });
+  }
+
+  const deletedTodo = todos.splice(todoIndex, 1);
+  res.json(deleteTodo[0]);
+}
