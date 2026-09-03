@@ -16,6 +16,7 @@ const Home = () => {
     inputRef,  
     error, 
     loading,
+    actionLoading
   } = useTodo();
 
   useEffect(() => {
@@ -45,11 +46,11 @@ const Home = () => {
 
         <button
           onClick={handleClearCompleted}
-          disabled={!todos.some((todo) => todo.completed)}
+          disabled={!todos.some((todo) => todo.completed) || actionLoading}
           className="rounded-lg bg-red-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-red-600
             disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Clear Completed
+          {actionLoading ? "Processing..." : "Clear Completed"}
         </button>
 
         {error && (
@@ -79,11 +80,11 @@ const Home = () => {
 
           <button
             type="submit"
-            disabled={!task.trim()}
+            disabled={!task.trim() || actionLoading}
             className="rounded-lg bg-slate-900 px-6 py-3 font-medium text-white transition hover:bg-slate-700
               disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Add Task
+            {actionLoading ? "Adding..." : "Add Task"}
           </button>
         </form>
 
