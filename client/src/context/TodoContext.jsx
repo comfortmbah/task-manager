@@ -45,8 +45,10 @@ export const TodoProvider = ({ children }) => {
         });
   
         setTask("");
+        setError("");
       } catch (error) {
         console.error(error);
+        setError(error.message)
       }
 
       inputRef.current.focus();
@@ -63,8 +65,11 @@ export const TodoProvider = ({ children }) => {
           type: "DELETE_TASK",
           payload: id,
         });
+
+        setError("");
       } catch (error) {
         console.error(error);
+        setError(error.message);
       }
     };
   
@@ -76,8 +81,11 @@ export const TodoProvider = ({ children }) => {
           type: "TOGGLE_TASK",
           payload: updatedTodo,
         });
+
+        setError("");
       } catch (error) {
         console.error(error);
+        setError(error.message)
       }
     };
   
@@ -92,8 +100,11 @@ export const TodoProvider = ({ children }) => {
           type: "SET_TODOS",
           payload: remainingTodos,
         })
+
+        setError("");
       } catch (error) {
         console.error(error);
+        setError(error.message);
       }
     }
 
