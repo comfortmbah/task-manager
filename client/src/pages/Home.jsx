@@ -13,7 +13,8 @@ const Home = () => {
     handleDelete,
     handleToggle,
     handleClearCompleted,
-    inputRef,   
+    inputRef,  
+    error, 
   } = useTodo();
 
   useEffect(() => {
@@ -49,6 +50,12 @@ const Home = () => {
         >
           Clear Completed
         </button>
+
+        {error && (
+          <p className="mb-4 rounded-lg bg-red-100 p-3 text-red-700">
+            {error}
+          </p>
+        )}
 
         <form
           onSubmit={handleSubmit}
