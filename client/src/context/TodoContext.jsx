@@ -9,6 +9,7 @@ const TodoContext = createContext();
 export const TodoProvider = ({ children }) => {
   const inputRef = useRef(null);
   const [task, setTask] = useState("");
+  const [error, setError] = useState("");
   const [todos, dispatch] = useReducer(todoReducer, [])
     
   useEffect(() => {
@@ -21,6 +22,7 @@ export const TodoProvider = ({ children }) => {
     })
     .catch((error) => {
       console.error(error);
+      setError(error.message);
     });
   }, []);
     
@@ -102,6 +104,7 @@ export const TodoProvider = ({ children }) => {
         handleToggle,
         handleClearCompleted,
         inputRef,
+        error,
       }}
     >
       {children}
