@@ -11,6 +11,7 @@ export const TodoProvider = ({ children }) => {
   const [task, setTask] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
   const [todos, dispatch] = useReducer(todoReducer, [])
     
   useEffect(() => {
@@ -37,6 +38,8 @@ export const TodoProvider = ({ children }) => {
       if (!trimmedTask) return;
 
       try {
+        setActionLoading(true);
+
         const newTodo = await createTodo(trimmedTask);
 
         dispatch({
@@ -49,6 +52,8 @@ export const TodoProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
         setError(error.message)
+      } finally {
+        setActionLoading(false);
       }
 
       inputRef.current.focus();
@@ -59,6 +64,8 @@ export const TodoProvider = ({ children }) => {
       if (!confirmDelete) return;
 
       try {
+        setActionLoading(true);
+
         await deleteTodo(id);
 
         dispatch({
@@ -70,11 +77,15 @@ export const TodoProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
         setError(error.message);
+      } finally {
+        setActionLoading(false);
       }
     };
   
     async function handleToggle(id) {
       try {
+        setActionLoading(true);
+
         const updatedTodo = await updateTodo(id);
 
         dispatch({ 
@@ -86,6 +97,8 @@ export const TodoProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
         setError(error.message)
+      } finally {
+        setActionLoading(false);
       }
     };
   
@@ -94,6 +107,8 @@ export const TodoProvider = ({ children }) => {
       if (!confirmClear) return;
 
       try {
+        setActionLoading(true);
+
         const remainingTodos = await deleteCompletedTodos();
 
         dispatch({
@@ -105,6 +120,8 @@ export const TodoProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
         setError(error.message);
+      } finally {
+        setActionLoading(false);
       }
     }
 
