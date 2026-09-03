@@ -15,6 +15,7 @@ const Home = () => {
     handleClearCompleted,
     inputRef,  
     error, 
+    loading,
   } = useTodo();
 
   useEffect(() => {
@@ -54,6 +55,12 @@ const Home = () => {
         {error && (
           <p className="mb-4 rounded-lg bg-red-100 p-3 text-red-700">
             {error}
+          </p>
+        )}
+
+        {loading && (
+          <p className="mb-4 text-gray-500">
+            Loading tasks...
           </p>
         )}
 
