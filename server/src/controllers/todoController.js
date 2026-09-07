@@ -1,8 +1,8 @@
-import { getTodos } from "../data/todos.js";
+import { getAllTasks } from "../../models/taskModel.js";
 
-export const getTodosList = (req, res) => {
-  const todos = getTodos();
-  res.json(todos);
+export const getTasks = async (req, res) => {
+  const tasks = await getAllTasks();
+  res.json(tasks);
 }
 
 export const createTodo = (req, res) => {
