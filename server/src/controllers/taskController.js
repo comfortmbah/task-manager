@@ -5,7 +5,7 @@ export const getTasks = async (req, res) => {
   res.json(tasks);
 }
 
-export const createTodo = (req, res) => {
+/*export const createTodo = (req, res) => {
   const { text } = req.body;
 
   const todos = getTodos();
@@ -66,4 +66,4 @@ export const deleteCompletedTodo = (req, res) => {
   todos.push(...remainigTodos);
 
   res.json(todos);
-}
+} */
