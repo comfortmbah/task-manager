@@ -1,4 +1,4 @@
-import { getAllTasks, createTask, updateTask } from "../../models/taskModel.js";
+import { getAllTasks, createTask, updateTask, deleteTask } from "../../models/taskModel.js";
 
 export const getTasks = async (req, res) => {
   const tasks = await getAllTasks();
@@ -22,22 +22,15 @@ export const updateTaskController = async (req, res) => {
   res.json(task);
 }
 
-/*export const deleteTodo = (req, res) => {
+export const deleteTaskController = async (req, res) => {
   const { id } = req.params;
-  const todos = getTodos();
 
-  const todoIndex  = todos.findIndex((todo) => todo.id === Number(id));
-  if (todoIndex === -1) {
-    return res.status(404).json({
-      message: "Todo not found"
-    });
-  }
+  const task = await deleteTask(id);
 
-  const deletedTodo = todos.splice(todoIndex, 1);
-  res.json(deletedTodo[0]);
+  res.json(task);
 }
 
-export const deleteCompletedTodo = (req, res) => {
+/*export const deleteCompletedTodo = (req, res) => {
   const todos = getTodos();
   const remainigTodos = todos.filter((todo) => !todo.completed);
   todos.length = 0;
