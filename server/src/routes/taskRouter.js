@@ -1,11 +1,11 @@
 import express from "express";
-import { getTasks } from "../controllers/taskController.js";
+import { getTasks, createTaskController } from "../controllers/taskController.js";
 
 const router = express.Router();
 
 router.get("/", getTasks);
 
-//router.post("/", createTodo);
+router.post("/", createTaskController);
 
 //router.patch("/:id", updateTodo);
 
