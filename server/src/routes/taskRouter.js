@@ -1,5 +1,5 @@
 import express from "express";
-import { getTasks, createTaskController, updateTaskController, deleteTaskController } from "../controllers/taskController.js";
+import { getTasks, createTaskController, updateTaskController, deleteTaskController, deleteCompletedTasksController } from "../controllers/taskController.js";
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.post("/", createTaskController);
 
 router.patch("/:id", updateTaskController);
 
-//router.delete("/completed", deleteCompletedTodo)
+router.delete("/completed", deleteCompletedTasksController);
 
 router.delete("/:id", deleteTaskController);
 
