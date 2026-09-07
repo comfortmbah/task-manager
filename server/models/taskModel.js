@@ -28,3 +28,14 @@ export const updateTask = async (id, completed) => {
 
   return result.rows[0];
 }
+
+export const deleteTask = async (id) => {
+  const result = await pool.query(
+    `DELETE FROM tasks
+    WHERE id = $1
+    RETURNING *`,
+    [id]
+  );
+
+  return result.rows[0];
+}
