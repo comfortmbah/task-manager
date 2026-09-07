@@ -1,7 +1,7 @@
-import pool from "./config/db.js";
+//import pool from "./config/db.js";
 
-const result = await pool.query("SELECT * FROM tasks");
+//const result = await pool.query("SELECT * FROM tasks");
 
-console.log(result.rows);
+//console.log(result.rows);
 
-await pool.end();
+//await pool.end();
