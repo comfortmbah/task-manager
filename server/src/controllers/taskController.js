@@ -1,11 +1,11 @@
-import { getAllTasks, createTask } from "../../models/taskModel.js";
+import { getAllTasks, createTask, updateTask } from "../../models/taskModel.js";
 
 export const getTasks = async (req, res) => {
   const tasks = await getAllTasks();
   res.json(tasks);
 }
 
-export const createTaskController = async (req, res) => {
+export const createTask = async (req, res) => {
   const { text } = req.body;
 
   const task = await createTask(text);
@@ -13,24 +13,16 @@ export const createTaskController = async (req, res) => {
   res.status(201).json(task);
 }
 
-/*export const updateTodo = (req, res) => {
+export const updateTaskController = async (req, res) => {
   const { id } = req.params;
-  const todos = getTodos();
+  const { completed } = req.body;
 
-  const todo = todos.find((todo) => todo.id === Number(id)); 
+  const task = await updateTask(id, completed);
 
-  if (!todo) {
-    return res.status(404).json({
-      message: "Todo not found",
-    });
-  }
-
-  todo.completed = !todo.completed;
-
-  res.json(todo);
+  res.json(task);
 }
 
-export const deleteTodo = (req, res) => {
+/*export const deleteTodo = (req, res) => {
   const { id } = req.params;
   const todos = getTodos();
 
