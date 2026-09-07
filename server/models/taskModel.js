@@ -16,3 +16,15 @@ export const createTask = async (text) => {
 
   return result.rows[0];
 }
+
+export const updateTask = async (id, completed) => {
+  const result = await pool.query(
+    `UPDATE tasks
+    SET completed = $1
+    WHERE id = $2
+    RETURNING *`,
+    [completed, id]
+  );
+
+  return result.rows[0];
+}
