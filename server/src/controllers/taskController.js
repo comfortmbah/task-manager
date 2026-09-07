@@ -1,33 +1,19 @@
-import { getAllTasks } from "../../models/taskModel.js";
+import { getAllTasks, createTask } from "../../models/taskModel.js";
 
 export const getTasks = async (req, res) => {
   const tasks = await getAllTasks();
   res.json(tasks);
 }
 
-/*export const createTodo = (req, res) => {
+export const createTask = async (req, res) => {
   const { text } = req.body;
 
-  const todos = getTodos();
+  const task = await createTask();
 
-  if (!text || !text.trim()) {
-    return res.status(400).json({
-      message: "Task text is required"
-    });
-  }
-
-  const newTodo = {
-    id: Date.now(),
-    text: text.trim(),
-    completed: false,
-  };
-
-  todos.push(newTodo);
-
-  res.status(201).json(newTodo);
+  res.status(201).json(task);
 }
 
-export const updateTodo = (req, res) => {
+/*export const updateTodo = (req, res) => {
   const { id } = req.params;
   const todos = getTodos();
 
