@@ -41,10 +41,14 @@ export const deleteTask = async (id) => {
 }
 
 export const deleteCompletedTask = async () => {
-  const result = await pool.query(
+  await pool.query(
     `DELETE FROM tasks
-    WHERE completed = true
-    RETURNING *`
+    WHERE completed = true`
+  );
+
+  const result = await pool.query(
+    `SELECT * FROM tasks
+    ORDER BY id ASC`
   );
 
   return result.rows;
