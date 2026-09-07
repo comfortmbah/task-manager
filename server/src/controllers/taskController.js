@@ -8,7 +8,7 @@ export const getTasks = async (req, res) => {
 export const createTask = async (req, res) => {
   const { text } = req.body;
 
-  const task = await createTask();
+  const task = await createTask(text);
 
   res.status(201).json(task);
 }
