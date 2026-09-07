@@ -5,7 +5,7 @@ export const getTasks = async (req, res) => {
   res.json(tasks);
 }
 
-export const createTask = async (req, res) => {
+export const createTaskController = async (req, res) => {
   const { text } = req.body;
 
   const task = await createTask(text);
