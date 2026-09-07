@@ -1,5 +1,5 @@
 import express from "express";
-import { getTasks, createTaskController } from "../controllers/taskController.js";
+import { getTasks, createTaskController, updateTaskController } from "../controllers/taskController.js";
 
 const router = express.Router();
 
@@ -7,7 +7,7 @@ router.get("/", getTasks);
 
 router.post("/", createTaskController);
 
-//router.patch("/:id", updateTodo);
+router.patch("/:id", updateTaskController);
 
 //router.delete("/completed", deleteCompletedTodo)
 

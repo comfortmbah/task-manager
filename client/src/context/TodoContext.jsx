@@ -83,10 +83,13 @@ export const TodoProvider = ({ children }) => {
     };
   
     async function handleToggle(id) {
+      const todo = todos.find((todo) => todo.id === id);
+      if (!todo) return;
+
       try {
         setActionLoading(true);
 
-        const updatedTodo = await updateTodo(id);
+        const updatedTodo = await updateTodo(id, !todo.completed);
 
         dispatch({ 
           type: "TOGGLE_TASK",
