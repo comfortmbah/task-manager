@@ -53,3 +53,4 @@ export const deleteCompletedTask = async () => {
 
   return result.rows;
 }
+
