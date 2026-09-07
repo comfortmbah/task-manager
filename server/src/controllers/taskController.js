@@ -30,8 +30,8 @@ export const deleteTaskController = async (req, res) => {
   res.json(task);
 }
 
-export const deleteCompletedTask = async (req, res) => {
+export const deleteCompletedTasksController = async (req, res) => {
   const deletedTasks = await deleteCompletedTask();
-  
+
   res.json(deletedTasks);
 } 
