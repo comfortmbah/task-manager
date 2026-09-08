@@ -8,14 +8,14 @@ export async function getTodos(userId) {
   return handleApiResponse(response, "Failed to fetch todos")
 }
 
-export async function createTodo(text) {
+export async function createTodo(text, userId) {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      text,
+      text, userId
     }),
   });
 
