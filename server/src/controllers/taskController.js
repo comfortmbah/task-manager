@@ -1,4 +1,4 @@
-import { getAllTasks, createTask, updateTask, deleteTask, deleteCompletedTask } from "../../models/taskModel.js";
+import { getAllTasks, createTask, updateTask, deleteTask, deleteCompletedTask } from "../models/taskModel.js";
 
 export const getTasks = async (req, res) => {
   const tasks = await getAllTasks();
