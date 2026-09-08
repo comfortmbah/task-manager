@@ -6,12 +6,12 @@ export const getAllTasks = async () => {
   return result.rows;
 };
 
-export const createTask = async (text) => {
+export const createTask = async (text, userId) => {
   const result = await pool.query(
     `INSERT INTO tasks (text)
-     VALUES ($1)
+     VALUES ($1, $2)
      RETURNING *`,
-    [text]
+    [text, userId]
   );
 
   return result.rows[0];
