@@ -2,8 +2,8 @@ import { handleApiResponse } from "./apiError";
 export const API_URL = "http://localhost:5000/api/tasks";
 
 
-export async function getTodos() {
-  const response = await fetch(API_URL);
+export async function getTodos(userId) {
+  const response = await fetch(`${API_URL}?userId=${userId}`);
   
   return handleApiResponse(response, "Failed to fetch todos")
 }
