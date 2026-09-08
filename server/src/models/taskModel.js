@@ -8,7 +8,7 @@ export const getAllTasks = async () => {
 
 export const createTask = async (text, userId) => {
   const result = await pool.query(
-    `INSERT INTO tasks (text)
+    `INSERT INTO tasks (text, user_id)
      VALUES ($1, $2)
      RETURNING *`,
     [text, userId]
