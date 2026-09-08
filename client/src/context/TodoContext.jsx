@@ -40,7 +40,7 @@ export const TodoProvider = ({ children }) => {
       try {
         setActionLoading(true);
 
-        const newTodo = await createTodo(trimmedTask);
+        const newTodo = await createTodo(trimmedTask, 4);
 
         dispatch({
           type: "ADD_TASK",
