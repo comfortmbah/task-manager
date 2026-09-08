@@ -15,7 +15,7 @@ export const TodoProvider = ({ children }) => {
   const [todos, dispatch] = useReducer(todoReducer, [])
     
   useEffect(() => {
-    getTodos()
+    getTodos(4)
     .then((data) => {
       dispatch({
         type: "SET_TODOS",
