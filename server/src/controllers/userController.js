@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken";
 import { createUser, findUserByEmail } from "../models/userModel.js";
 
 export const createUserController = async (req, res) => {
@@ -27,11 +28,11 @@ export const loginUserController = async (req, res) => {
     });
   }
 
-  res.json({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-  });
+  const token = jwt.sign(
+    {userId: user.id}, process.env.JWT_SECRET, { expiresIn: "1h" }
+  );
+
+  res.json({ token });
 };
 
 
