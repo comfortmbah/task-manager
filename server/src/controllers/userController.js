@@ -1,4 +1,5 @@
-import { createUser } from "../models/userModel.js";
+import bcrypt from "bcrypt"
+import { createUser, findUserByEmail } from "../models/userModel.js";
 
 export const createUserController = async (req, res) => {
   const { name, email, password } = req.body;
@@ -7,4 +8,30 @@ export const createUserController = async (req, res) => {
 
   res.status(201).json(user);
 }
+
+export const loginUserController = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    return res.status(401).json({
+      message: "Invalid email or password",
+    })
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
+
+  if (!isPasswordCorrect) {
+    return res.status(401).json({
+      message: "Invalid email or password"
+    });
+  }
+
+  res.json({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  });
+};
+
 
