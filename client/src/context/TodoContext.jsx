@@ -15,7 +15,7 @@ export const TodoProvider = ({ children }) => {
   const [todos, dispatch] = useReducer(todoReducer, [])
     
   useEffect(() => {
-    getTodos(4)
+    getTodos()
     .then((data) => {
       dispatch({
         type: "SET_TODOS",
@@ -40,7 +40,7 @@ export const TodoProvider = ({ children }) => {
       try {
         setActionLoading(true);
 
-        const newTodo = await createTodo(trimmedTask, 4);
+        const newTodo = await createTodo(trimmedTask);
 
         dispatch({
           type: "ADD_TASK",
