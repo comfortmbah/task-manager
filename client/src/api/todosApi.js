@@ -35,6 +35,7 @@ export async function updateTodo(id, completed) {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      ...getAuthHeaders(),
     },
     body: JSON.stringify({ completed }),
   });
@@ -45,6 +46,7 @@ export async function updateTodo(id, completed) {
 export async function deleteTodo(id) {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
 
   return handleApiResponse(response, "Failed to delete todo")
@@ -53,6 +55,7 @@ export async function deleteTodo(id) {
 export async function deleteCompletedTodos() {
   const response = await fetch(`${API_URL}/completed`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
 
   return handleApiResponse(response, "Failed to clear completed todos");
