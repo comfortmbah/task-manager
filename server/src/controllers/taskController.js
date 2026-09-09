@@ -27,8 +27,9 @@ export const updateTaskController = async (req, res) => {
 
 export const deleteTaskController = async (req, res) => {
   const { id } = req.params;
+  const userId = req.user.userId;
 
-  const task = await deleteTask(id);
+  const task = await deleteTask(id, userId);
 
   res.json(task);
 }
