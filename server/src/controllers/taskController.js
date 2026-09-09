@@ -18,8 +18,9 @@ export const createTaskController = async (req, res) => {
 export const updateTaskController = async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
+  const userId = req.user.userId;
 
-  const task = await updateTask(id, completed);
+  const task = await updateTask(id, completed, userId);
 
   res.json(task);
 }
