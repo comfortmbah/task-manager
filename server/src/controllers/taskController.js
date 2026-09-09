@@ -35,7 +35,9 @@ export const deleteTaskController = async (req, res) => {
 }
 
 export const deleteCompletedTasksController = async (req, res) => {
-  const deletedTasks = await deleteCompletedTask();
+  const userId = req.user.userId;
+
+  const deletedTasks = await deleteCompletedTask(userId);
 
   res.json(deletedTasks);
 } 
