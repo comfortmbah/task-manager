@@ -1,9 +1,9 @@
 import { createUser } from "../models/userModel.js";
 
 export const createUserController = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, password } = req.body;
 
-  const user = await createUser(name, email);
+  const user = await createUser(name, email, password);
 
   res.status(201).json(user);
 }
