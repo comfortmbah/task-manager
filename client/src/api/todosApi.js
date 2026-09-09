@@ -1,22 +1,30 @@
 import { handleApiResponse } from "./apiError";
 export const API_URL = "http://localhost:5000/api/tasks";
 
+function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+}
 
-export async function getTodos(userId) {
-  const response = await fetch(`${API_URL}?userId=${userId}`);
+
+export async function getTodos() {
+  const response = await fetch(API_URL, {
+    headers: getAuthHeaders(),
+  });
   
   return handleApiResponse(response, "Failed to fetch todos")
 }
 
-export async function createTodo(text, userId) {
+export async function createTodo(text) {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...getAuthHeaders(),
     },
-    body: JSON.stringify({
-      text, userId
-    }),
+    body: JSON.stringify({ text }),
   });
 
  return handleApiResponse(response, "Failed to create todo");
