@@ -1,7 +1,7 @@
 import { getAllTasks, createTask, updateTask, deleteTask, deleteCompletedTask } from "../models/taskModel.js";
 
 export const getTasks = async (req, res) => {
-  const { userId } = req.query;
+  const userId = req.user.userId;
   const tasks = await getAllTasks(userId);
   res.json(tasks);
 }
