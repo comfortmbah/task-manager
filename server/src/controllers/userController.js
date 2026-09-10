@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
-import { createUser, findUserByEmail } from "../models/userModel.js";
+import { createUser, findUserByEmail, findUserById } from "../models/userModel.js";
 
 export const createUserController = async (req, res) => {
   const { name, email, password } = req.body;
@@ -35,4 +35,10 @@ export const loginUserController = async (req, res) => {
   res.json({ token });
 };
 
+export const getCurrentUserController = async (req, res) => {
+  const userId = req.user.userId;
 
+  const user = await findUserById(userId);
+
+  res.json({ user });
+}
