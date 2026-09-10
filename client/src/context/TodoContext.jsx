@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useReducer, useEffect, useRef } fr
 import PropTypes from 'prop-types'
 import todoReducer from '../reducers/todoReducer'
 import { getTodos, createTodo, updateTodo, deleteTodo, deleteCompletedTodos } from '../api/todosApi';
-
+import { useAuth } from '../context/AuthContext';
 
 const TodoContext = createContext();
 
@@ -13,8 +13,12 @@ export const TodoProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [todos, dispatch] = useReducer(todoReducer, [])
+
+  const { token } = useAuth();
     
   useEffect(() => {
+    if (!token) return;
+
     getTodos()
     .then((data) => {
       dispatch({
@@ -29,7 +33,7 @@ export const TodoProvider = ({ children }) => {
     .finally(() => {
       setLoading(false);
     });
-  }, []);
+  }, [token]);
     
     async function handleSubmit(e) {
       e.preventDefault();
