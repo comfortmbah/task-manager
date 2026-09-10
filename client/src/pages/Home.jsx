@@ -4,6 +4,7 @@ import { useTodo } from "../context/TodoContext";
 import TaskSummary from "../components/TaskSummary";
 import { useEffect } from "react";
 
+
 const Home = () => {
   const {
     task,
@@ -53,6 +54,7 @@ const Home = () => {
           {actionLoading ? "Processing..." : "Clear Completed"}
         </button>
 
+        
         {error && (
           <p className="mb-4 rounded-lg bg-red-100 p-3 text-red-700">
             {error}
