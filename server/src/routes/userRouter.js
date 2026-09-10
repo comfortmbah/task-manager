@@ -1,5 +1,5 @@
 import express from "express";
-import { createUserController, loginUserController } from "../controllers/userController.js";
+import { createUserController, loginUserController, getCurrentUserController } from "../controllers/userController.js";
 import { authenticate } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -8,11 +8,6 @@ router.post("/", createUserController);
 
 router.post("/login", loginUserController);
 
-router.get("/me", authenticate, (req, res) => {
-  res.json({
-    message: "You are authenticated",
-    user: req.user
-  });
-});
+router.get("/me", authenticate, getCurrentUserController);
 
 export default router;
