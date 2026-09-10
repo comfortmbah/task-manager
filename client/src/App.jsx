@@ -17,8 +17,18 @@ const router = createBrowserRouter(
       } 
       />
       <Route path='login' element={<Login />} />
-      <Route path='active' element={<ActiveTasks />} />
-      <Route path='completed' element={<CompletedTasks />} />
+      <Route path='active' element={
+        <ProtectedRoute>
+          <ActiveTasks />
+        </ProtectedRoute>
+      } 
+      />
+      <Route path='completed' element={
+        <ProtectedRoute>
+          <CompletedTasks />
+        </ProtectedRoute>
+      } 
+      />
       <Route path='*' element={<NotFound />} />
     </Route>
   )
