@@ -18,3 +18,20 @@ export async function loginUser(email, password) {
 
   return data;
 }
+
+export const getCurrentUser = async () => {
+  const token = localStorage.getItem("token");
+  
+  const response = await fetch(`${API_URL}/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to get current user");
+  }
+
+  return response.json();
+}
