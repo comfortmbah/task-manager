@@ -5,11 +5,17 @@ import ActiveTasks from './pages/ActiveTasks'
 import CompletedTasks from './pages/CompletedTasks'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
-      <Route index element={<Home />} />
+      <Route index element={
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      } 
+      />
       <Route path='login' element={<Login />} />
       <Route path='active' element={<ActiveTasks />} />
       <Route path='completed' element={<CompletedTasks />} />
