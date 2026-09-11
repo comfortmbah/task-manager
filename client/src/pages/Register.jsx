@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { registerUser } from "../api/userApi";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -13,7 +18,8 @@ function Register() {
 
       const data = await registerUser(formData);
 
-      console.log(data);
+      login(data.token);
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
