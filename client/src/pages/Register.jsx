@@ -3,16 +3,19 @@ import { registerUser } from "../api/userApi";
 
 function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     
     try {
+      setError("");
+
       const data = await registerUser(formData);
 
       console.log(data);
     } catch (error) {
-      console.error(error);
+      setError(error.message);
     }
   };
 
@@ -26,6 +29,12 @@ function Register() {
         <p className="mb-6 text-center text-sm text-gray-500">
           Sign up to start managing tasks
         </p>
+
+        {error && (
+          <p className="mb-4 text-sm text-red-500">
+            {error}
+          </p>
+        )}
 
         <form 
           onSubmit={handleSubmit}
