@@ -35,3 +35,20 @@ export const getCurrentUser = async () => {
 
   return response.json();
 }
+
+export const registerUser = async (formData) => {
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Registration failed");
+  }
+
+  return response.json();
+}
