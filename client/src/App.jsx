@@ -7,11 +7,13 @@ import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import Register from './pages/Register';
+import StartPage from './components/StartPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
-      <Route index element={
+      <Route index element={<StartPage />} />
+      <Route path='/home' element={
         <ProtectedRoute>
           <Home />
         </ProtectedRoute>
