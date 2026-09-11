@@ -1,12 +1,20 @@
 import { useState } from "react";
+import { registerUser } from "../api/userApi";
 
 function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(formData);
-  }
+    
+    try {
+      const data = await registerUser(formData);
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
