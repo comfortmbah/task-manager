@@ -7,8 +7,17 @@ export const createUserController = async (req, res) => {
 
   const user = await createUser(name, email, password);
 
-  res.status(201).json(user);
-}
+  const token = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+
+  res.status(201).json({
+    user,
+    token
+  });
+};
 
 export const loginUserController = async (req, res) => {
   const { email, password } = req.body;
