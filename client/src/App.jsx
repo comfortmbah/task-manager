@@ -6,6 +6,7 @@ import CompletedTasks from './pages/CompletedTasks'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import Register from './pages/Register';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         </ProtectedRoute>
       } 
       />
+      <Route path='/register' element={<Register />} />
       <Route path='*' element={<NotFound />} />
     </Route>
   )
