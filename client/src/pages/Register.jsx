@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Register() {
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
 
   const { login } = useAuth();
@@ -101,6 +101,26 @@ function Register() {
               placeholder="Enter your password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value})}
+              className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
+                focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            />
+          </div>
+
+          <div>
+            <label 
+              htmlFor="confirmPassword"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </label>
+
+            <input 
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value})}
               className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
                 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
             />
