@@ -37,7 +37,7 @@ function Register() {
         </p>
 
         {error && (
-          <p className="mb-4 text-sm text-red-500">
+          <p className="mb-4 text-sm text-red-600 bg-red-50 px-4 py-2 rounded-md">
             {error}
           </p>
         )}
