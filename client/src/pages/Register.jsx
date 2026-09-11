@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { registerUser } from "../api/userApi";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Register() {
@@ -113,6 +113,16 @@ function Register() {
           >
             Sign Up
           </button>
+
+          <p className="mt-6 text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link
+              to={'/login'}
+              className="font-medium text-blue-600 hover:text-blue-700"
+            >
+              Log in
+            </Link>
+          </p>
         </form>
       </div>
     </div>
