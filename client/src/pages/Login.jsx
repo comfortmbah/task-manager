@@ -7,6 +7,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -77,16 +79,26 @@ function Login() {
               Password
             </label>
 
-            <input 
-              type="password" 
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
+            <div className="relative">
+              <input 
+                type={showPassword ? "text" : "password"} 
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
                 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-            />
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           <button 

@@ -7,6 +7,8 @@ function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -112,17 +114,27 @@ function Register() {
             >
               Password
             </label>
-
-            <input 
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value})}
-              className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
+            
+            <div className="relative">
+              <input 
+                type={showPassword ? "text" : "password"} 
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value})}
+                className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
                 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-            />
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           <div>
@@ -133,16 +145,26 @@ function Register() {
               Confirm Password
             </label>
 
-            <input 
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value})}
-              className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
+            <div className="relative">
+              <input 
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value})}
+                className="w-full rounded-md border border-gray-300 px-4 py-2 outline-none transition
                 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-            />
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                {showConfirmPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           <button
