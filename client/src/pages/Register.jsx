@@ -13,6 +13,11 @@ function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("Please fill in all required fields");
+      return;
+    }
     
     try {
       setError("");

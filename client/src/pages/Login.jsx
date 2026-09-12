@@ -14,6 +14,11 @@ function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    if(!email || !password) {
+      setError("Please enter your email and password");
+      return;
+    }
+
     try {
       setError("");
 
