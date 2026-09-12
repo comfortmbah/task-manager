@@ -38,7 +38,12 @@ const router = createBrowserRouter(
         </ProtectedRoute>
       } 
       />
-      <Route path='/register' element={<Register />} />
+      <Route path='/register' element={
+        <PublicRoute>
+          <Register />
+        </PublicRoute>
+      } 
+      />
       <Route path='*' element={<NotFound />} />
     </Route>
   )
