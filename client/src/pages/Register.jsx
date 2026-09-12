@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ function Register() {
         return;
       }
 
+      setLoading(true);
+
       const data = await registerUser({
         name: formData.name,
         email: formData.email,
@@ -31,6 +34,8 @@ function Register() {
       navigate("/");
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -137,10 +142,11 @@ function Register() {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full rounded-md bg-blue-600 py-2.5 font-medium text-white transition 
               hover:bg-blue-700"
           >
-            Sign Up
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
 
           <p className="mt-6 text-center text-sm text-gray-600">
