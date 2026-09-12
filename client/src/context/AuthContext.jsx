@@ -33,6 +33,7 @@ export function AuthProvider ({ children }) {
 
   function logout() {
     localStorage.removeItem("token");
+    
     setToken(null);
     setUser(null);
     setLoading(false);

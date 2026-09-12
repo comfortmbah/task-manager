@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Register from '../pages/Register';
+
 
 function StartPage() {
   const { token, loading } = useAuth();
@@ -13,7 +13,7 @@ function StartPage() {
     return <Navigate to={'/home'} replace />
   }
 
-  return <Register />
+  return <Navigate to={'/register'} replace />
 }
 
 export default StartPage;

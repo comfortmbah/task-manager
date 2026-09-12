@@ -14,7 +14,7 @@ const Navbar = () => {
     if (!confirmed) return;
 
     logout();
-    navigate("/login");
+    navigate("/register", { replace: true });
   }
 
 
