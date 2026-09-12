@@ -16,7 +16,16 @@ function Register() {
     try {
       setError("");
 
-      const data = await registerUser(formData);
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+
+      const data = await registerUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
 
       login(data.token);
       navigate("/");
