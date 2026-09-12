@@ -20,6 +20,11 @@ function Register() {
       setError("Please fill in all required fields");
       return;
     }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
     
     try {
       setError("");

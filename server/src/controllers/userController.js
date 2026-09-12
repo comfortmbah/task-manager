@@ -5,6 +5,18 @@ import { createUser, findUserByEmail, findUserById } from "../models/userModel.j
 export const createUserController = async (req, res) => {
   const { name, email, password } = req.body;
 
+  if (!name || !email || !password) {
+    return res.status(400).json({
+      message: "Name, email and password are required"
+    });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({
+      message: "Password must be at least 6 characters"
+    });
+  }
+
   const user = await createUser(name, email, password);
 
   const token = jwt.sign(
