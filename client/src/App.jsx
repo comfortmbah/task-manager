@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import Register from './pages/Register';
 import StartPage from './components/StartPage';
+import PublicRoute from './components/PublicRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,7 +20,12 @@ const router = createBrowserRouter(
         </ProtectedRoute>
       } 
       />
-      <Route path='login' element={<Login />} />
+      <Route path='login' element={
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
+      } 
+      />
       <Route path='active' element={
         <ProtectedRoute>
           <ActiveTasks />
