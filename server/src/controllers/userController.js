@@ -19,13 +19,15 @@ export const createUserController = async (req, res) => {
     });
   }
 
+  const normalizedEmail = email.trim().toLowerCase();
+
   if (password.length < 6) {
     return res.status(400).json({
       message: "Password must be at least 6 characters"
     });
   }
 
-  const user = await createUser(name, email, password);
+  const user = await createUser(name, normalizedEmail, password);
 
   const token = jwt.sign(
     { userId: user.id },
@@ -56,7 +58,9 @@ export const loginUserController = async (req, res) => {
     });
   }
 
-  const user = await findUserByEmail(email);
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const user = await findUserByEmail(normalizedEmail);
 
   if (!user) {
     return res.status(401).json({
