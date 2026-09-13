@@ -1,6 +1,12 @@
 export const errorHandler = (err, req, res, next) => {
   console.error(err);
 
+  if (err.isOperational) {
+    return res.status(err.statusCode).json({
+      message: err.message,
+    });
+  }
+
   if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
     return res.status(400).json({
       message: "Invalid JSON format"
