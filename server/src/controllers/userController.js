@@ -51,5 +51,9 @@ export const getCurrentUserController = async (req, res) => {
 
   const user = await findUserById(userId);
 
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
   res.json({ user });
 }
