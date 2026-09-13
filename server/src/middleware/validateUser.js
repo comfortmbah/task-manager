@@ -1,4 +1,11 @@
+import AppError from "../utils/AppError.js"
+
+
 export const validateRegistration = (req, res, next) => {
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    throw new AppError("Request body must be a valid object", 400);
+  }
+
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -62,6 +69,10 @@ export const validateRegistration = (req, res, next) => {
 }
 
 export const validateLogin = (req, res, next) => {
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    throw new AppError("Request body must be a valid object", 400);
+  }
+  
   const { email, password } = req.body;
 
   if (!email || !password) {
