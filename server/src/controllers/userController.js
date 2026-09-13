@@ -8,6 +8,10 @@ export const createUserController = async (req, res) => {
 
   const user = await createUser(name, email, password);
 
+  if (!user) {
+    throw new AppError("Unable to create user", 500);
+  }
+
   const token = jwt.sign(
     { userId: user.id },
     process.env.JWT_SECRET,
