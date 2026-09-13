@@ -23,6 +23,12 @@ export const errorHandler = (err, req, res, next) => {
     });
   }
 
+  if (err.code === "23503") {
+    return res.status(400).json({
+      message: "Invalid related resource",
+    });
+  }
+
   res.status(500).json({
     message: "Internal server error"
   });
