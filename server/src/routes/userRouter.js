@@ -10,6 +10,6 @@ router.post("/", validateRegistration, asyncHandler(createUserController));
 
 router.post("/login", validateLogin, asyncHandler(loginUserController));
 
-router.get("/me", authenticate, getCurrentUserController);
+router.get("/me", authenticate, asyncHandler(getCurrentUserController));
 
 export default router;
