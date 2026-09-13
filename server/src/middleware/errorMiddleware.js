@@ -1,6 +1,12 @@
 export const errorHandler = (err, req, res, next) => {
   console.error(err);
 
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    return res.status(400).json({
+      message: "Invalid JSON format"
+    });
+  }
+
   if (err.code === "23505") {
     return res.status(409).json({
       message: "A user with this email already exist",
