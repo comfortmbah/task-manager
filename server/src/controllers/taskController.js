@@ -1,4 +1,5 @@
 import { getAllTasks, createTask, updateTask, deleteTask, deleteCompletedTask } from "../models/taskModel.js";
+import AppError from "../utils/AppError.js";
 
 export const getTasks = async (req, res) => {
   const userId = req.user.userId;
@@ -22,6 +23,10 @@ export const updateTaskController = async (req, res) => {
 
   const task = await updateTask(id, completed, userId);
 
+  if (!task) {
+    throw new AppError("Task not found", 404);
+  }
+
   res.json(task);
 }
 
@@ -30,6 +35,10 @@ export const deleteTaskController = async (req, res) => {
   const userId = req.user.userId;
 
   const task = await deleteTask(id, userId);
+
+  if (!task) {
+    throw new AppError("Task not found", 404);
+  }
 
   res.json(task);
 }
