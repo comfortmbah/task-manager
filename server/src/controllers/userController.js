@@ -47,6 +47,18 @@ export const createUserController = async (req, res) => {
     });
   }
 
+  if (password.length > 72) {
+    return res.status(400).json({
+      message: "Password must not exceed 72 characters"
+    });
+  }
+
+  if (!password.trim()) {
+    return res.status(400).json({
+      message: "Password cannot contain only spaces"
+    });
+  }
+
   const user = await createUser(normalizedName, normalizedEmail, password);
 
   const token = jwt.sign(
