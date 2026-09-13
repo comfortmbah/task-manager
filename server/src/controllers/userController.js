@@ -11,6 +11,14 @@ export const createUserController = async (req, res) => {
     });
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Please provide a valid email address"
+    });
+  }
+
   if (password.length < 6) {
     return res.status(400).json({
       message: "Password must be at least 6 characters"
@@ -37,6 +45,14 @@ export const loginUserController = async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({
       message: "Email and password are required"
+    });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Please provide a valid email address"
     });
   }
 
