@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 import { createUser, findUserByEmail, findUserById } from "../models/userModel.js";
+import AppError from "../utils/AppError.js";
 
 export const createUserController = async (req, res) => {
   const { name, email, password } = req.body;
@@ -25,17 +26,13 @@ export const loginUserController = async (req, res) => {
   const user = await findUserByEmail(email);
 
   if (!user) {
-    return res.status(401).json({
-      message: "Invalid email or password",
-    })
+    throw new AppError("Invalid email or password", 401);
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
 
   if (!isPasswordCorrect) {
-    return res.status(401).json({
-      message: "Invalid email or password"
-    });
+    throw new AppError("Invalid email or password", 401);
   }
 
   const token = jwt.sign(
