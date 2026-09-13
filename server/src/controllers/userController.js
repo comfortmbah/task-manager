@@ -21,24 +21,8 @@ export const createUserController = async (req, res) => {
 
 export const loginUserController = async (req, res) => {
   const { email, password } = req.body;
- 
-  if (!email || !password) {
-    return res.status(400).json({
-      message: "Email and password are required"
-    });
-  }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({
-      message: "Please provide a valid email address"
-    });
-  }
-
-  const normalizedEmail = email.trim().toLowerCase();
-
-  const user = await findUserByEmail(normalizedEmail);
+  const user = await findUserByEmail(email);
 
   if (!user) {
     return res.status(401).json({

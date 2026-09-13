@@ -60,3 +60,27 @@ export const validateRegistration = (req, res, next) => {
 
   next();
 }
+
+export const validateLogin = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "Email and password are required"
+    });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Please provide a valid email address"
+    });
+  }
+
+  req.body.email = normalizedEmail;
+
+  next();
+}
