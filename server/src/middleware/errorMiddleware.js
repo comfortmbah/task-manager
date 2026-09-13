@@ -1,5 +1,9 @@
 export const errorHandler = (err, req, res, next) => {
-  console.error(err);
+  console.error({
+    message: err.message,
+    stack: err.stack,
+    code: err.code,
+  });
 
   if (err.isOperational) {
     return res.status(err.statusCode).json({
