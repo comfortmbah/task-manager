@@ -21,13 +21,33 @@ export const createUserController = async (req, res) => {
 
   const normalizedEmail = email.trim().toLowerCase();
 
+  if (normalizedEmail.length > 255) {
+    return res.status(400).json({
+      message: "Email must not exceed 255 characters"
+    });
+  }
+
+  const normalizedName = name.trim();
+
+  if (!normalizedName) {
+    return res.status(400).json({
+      message: "Name is required"
+    });
+  }
+
+  if (normalizedName.length > 100) {
+    return res.status(400).json({
+      message: "Name must not exceed 100 characters"
+    });
+  }
+
   if (password.length < 6) {
     return res.status(400).json({
       message: "Password must be at least 6 characters"
     });
   }
 
-  const user = await createUser(name, normalizedEmail, password);
+  const user = await createUser(normalizedName, normalizedEmail, password);
 
   const token = jwt.sign(
     { userId: user.id },
