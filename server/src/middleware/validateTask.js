@@ -9,3 +9,13 @@ export const validateTaskId = (req, res, next) => {
 
   next();
 }
+
+export const validateTaskUpdate = (req, res, next) => {
+  const { completed } = req.body;
+
+  if (typeof completed !== "boolean") {
+    throw new AppError("Completed must be a boolean", 400);
+  }
+
+  next();
+}
