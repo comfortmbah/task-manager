@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import AppError from "../utils/AppError";
+import AppError from "../utils/AppError.js";
 
 export const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -8,7 +8,11 @@ export const authenticate = (req, res, next) => {
     throw new AppError("Authentication required", 401);
   }
 
-  const token = authHeader.split(" ")[1];
+  const [scheme, token] = authHeader.split(" ");
+
+  if (scheme !== "Bearer" || !token) {
+    throw new AppError("Invalid authorization header", 401);
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
