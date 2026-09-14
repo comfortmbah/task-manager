@@ -19,3 +19,25 @@ export const validateTaskUpdate = (req, res, next) => {
 
   next();
 }
+
+export const validateTaskCreation = (req, res, next) => {
+  const { text } = req.body;
+
+  if (typeof text !== "string") {
+    throw new AppError("Task text must be a string", 400);
+  }
+
+  const normalizedText = text.trim();
+
+  if (!normalizedText) {
+    throw new AppError("Task text is required", 400);
+  }
+
+  if (normalizedText.length > 255) {
+    throw new AppError("Task text must not exceed 255 characters", 400);
+  }
+
+  req.body.text = normalizedText;
+
+  next();
+}
