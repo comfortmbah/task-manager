@@ -9,57 +9,41 @@ export const validateRegistration = (req, res, next) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    return res.status(400).json({
-      message: "Name, email and password are required"
-    });
+    throw new AppError("Name, email and password are required", 400);
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailRegex.test(email)) {
-    return res.status(400).json({
-      message: "Please provide a valid email address"
-    });
+    throw new AppError("Please provide a valid email address", 400);
   }
 
   const normalizedEmail = email.trim().toLowerCase();
 
   if (normalizedEmail.length > 255) {
-    return res.status(400).json({
-      message: "Email must not exceed 255 characters"
-    });
+    throw new AppError("Email must not exceed 255 characters", 400);
   }
 
   const normalizedName = name.trim();
 
   if (!normalizedName) {
-    return res.status(400).json({
-      message: "Name is required"
-    });
+    throw new AppError("Name is required", 400);
   }
 
   if (normalizedName.length > 100) {
-    return res.status(400).json({
-      message: "Name must not exceed 100 characters"
-    });
+    throw new AppError("Name must not exceed 100 characters", 400);
   }
 
   if (password.length < 6) {
-    return res.status(400).json({
-      message: "Password must be at least 6 characters"
-    });
+    throw new AppError("Password must be at least 6 characters", 400);
   }
 
   if (password.length > 72) {
-    return res.status(400).json({
-      message: "Password must not exceed 72 characters"
-    });
+    throw new AppError("Password must not exceed 72 characters", 400);
   }
 
   if (!password.trim()) {
-    return res.status(400).json({
-      message: "Password cannot contain only spaces"
-    });
+    throw new AppError("Password cannot contain only spaces", 400);
   }
 
   req.body.name = normalizedName;
@@ -76,9 +60,7 @@ export const validateLogin = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({
-      message: "Email and password are required"
-    });
+    throw new AppError("Email and password are required", 400);
   }
 
   const normalizedEmail = email.trim().toLowerCase();
@@ -86,9 +68,7 @@ export const validateLogin = (req, res, next) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailRegex.test(email)) {
-    return res.status(400).json({
-      message: "Please provide a valid email address"
-    });
+    throw new AppError("Please provide a valid email address", 400);
   }
 
   req.body.email = normalizedEmail;
