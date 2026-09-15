@@ -3,6 +3,8 @@ export const errorHandler = (err, req, res, next) => {
     message: err.message,
     stack: err.stack,
     code: err.code,
+    detail: err.detail,
+    constraint: err.constraint,
   });
 
   if (err.isOperational) {
