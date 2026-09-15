@@ -11,6 +11,11 @@ export const validateTaskId = (req, res, next) => {
 }
 
 export const validateTaskUpdate = (req, res, next) => {
+
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    throw new AppError("Request body must be a valid object", 400);
+  }
+  
   const { completed } = req.body;
 
   if (typeof completed !== "boolean") {
@@ -21,6 +26,11 @@ export const validateTaskUpdate = (req, res, next) => {
 }
 
 export const validateTaskCreation = (req, res, next) => {
+
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    throw new AppError("Request body must be a valid object", 400);
+  }
+
   const { text } = req.body;
 
   if (typeof text !== "string") {
