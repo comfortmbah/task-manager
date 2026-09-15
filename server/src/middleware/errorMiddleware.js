@@ -29,9 +29,11 @@ export const errorHandler = (err, req, res, next) => {
     });
   }
 
-  res.status(500).json({
-    message: "Internal server error"
-  });
+  const statusCode = err.statusCode || 500;
+
+  const message = process.env.NODE_ENV === "production" ? "Internal server error" : err.message || "Internal server error";
+
+  return res.status(statusCode).json(message);
 }
 
 export const notFound = (req, res) => {
