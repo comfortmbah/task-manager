@@ -3,6 +3,9 @@ import AppError from "../utils/AppError.js";
 
 export const errorHandler = (err, req, res, next) => {
   console.error({
+    requestId: req.requestId,
+    method: req.method,
+    url: req.originalUrl,
     name: err.name,
     message: err.message,
     stack: err.stack,
