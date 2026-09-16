@@ -8,6 +8,7 @@ import pool from "../config/db.js";
 import helmet from "helmet";
 import { apiLimiter } from "./middleware/rateLimiter.js";
 import { requestId } from "./middleware/requestId.js";
+import healthRoutes from "./routes/healthRoutes.js";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: "10kb" }));
+
+app.use("/health", healthRoutes);
 
 app.use("/api", apiLimiter);
 
