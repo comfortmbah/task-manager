@@ -44,6 +44,12 @@ const shutdown = async () => {
   process.exit(0);
 }
 
+process.on("uncaughtException", (error) => {
+  console.error("UNCAUGHT EXCEPTION:", error);
+
+  process.exit(1);
+})
+
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
 
