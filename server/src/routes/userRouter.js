@@ -3,11 +3,11 @@ import { createUserController, loginUserController, getCurrentUserController } f
 import { authenticate } from "../middleware/authMiddleware.js";
 import { validateRegistration, validateLogin } from "../middleware/validateUser.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { loginLimiter } from "../middleware/rateLimiter.js";
+import { loginLimiter, registrationLimiter } from "../middleware/rateLimiter.js";
 
 const router = express.Router();
 
-router.post("/", validateRegistration, asyncHandler(createUserController));
+router.post("/", registrationLimiter, validateRegistration, asyncHandler(createUserController));
 
 router.post("/login", loginLimiter, validateLogin, asyncHandler(loginUserController));
 
