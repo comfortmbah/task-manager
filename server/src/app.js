@@ -34,14 +34,18 @@ app.use(notFound);
 
 app.use(errorHandler);
 
-const shutdown = async () => {
-  console.log("shutting down server...");
+const shutdown = async (signal) => {
+  console.log(`${signal} received. shutting down server...`);
 
-  await pool.end();
+  try {
+    await pool.end();
 
-  console.log("Database connections closed.");
-
-  process.exit(0);
+    console.log("Database connections closed.");
+    process.exit(0);
+  } catch (error) {
+    console.error("Error during shutdown:", error);
+    process.exit(1);
+  }
 }
 
 process.on("uncaughtException", (error) => {
@@ -56,7 +60,7 @@ process.on("unhandledRejection", (reason) => {
   process.exit(1);
 })
 
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
 
 export default app;
