@@ -37,12 +37,21 @@ app.use(errorHandler);
 const shutdown = async (signal) => {
   console.log(`${signal} received. shutting down server...`);
 
+  const shutdownTimeout = setTimeout(() => {
+    console.error("Shutdown timed out. Forcing exit.");
+    process.exit(1);
+  }, 10000);
+
   try {
     await pool.end();
+
+    clearTimeout(shutdownTimeout);
 
     console.log("Database connections closed.");
     process.exit(0);
   } catch (error) {
+    clearTimeout(shutdownTimeout);
+    
     console.error("Error during shutdown:", error);
     process.exit(1);
   }
