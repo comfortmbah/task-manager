@@ -3,11 +3,14 @@ import AppError from "../utils/AppError.js";
 
 export const errorHandler = (err, req, res, next) => {
   console.error({
+    name: err.name,
     message: err.message,
     stack: err.stack,
+    statusCode: err.statusCode,
     code: err.code,
     detail: err.detail,
     constraint: err.constraint,
+    isOperational: err.isOperational,
   });
 
   if (err.isOperational) {
