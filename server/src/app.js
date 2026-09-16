@@ -1,5 +1,5 @@
 import express from "express";
-import "dotenv/config";
+import "../config/env.js";
 import cors from "cors";
 import taskRouter from "./routes/taskRouter.js" 
 import userRouter from "./routes/userRouter.js"
