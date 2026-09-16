@@ -14,3 +14,11 @@ export const livenessCheck = (req, res) => {
     status: "ok",
   });
 }
+
+export const readinessCheck = async (req, res) => {
+  await pool.query("SELECT 1");
+
+  res.status(200).json({
+    status: "ready",
+  });
+}
