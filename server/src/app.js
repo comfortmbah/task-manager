@@ -5,8 +5,11 @@ import taskRouter from "./routes/taskRouter.js"
 import userRouter from "./routes/userRouter.js"
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import pool from "../config/db.js";
+import helmet from "helmet";
 
 const app = express();
+
+app.use(helmet());
 
 app.use(cors());
 
