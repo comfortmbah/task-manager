@@ -1,3 +1,6 @@
+import AppError from "../utils/AppError.js";
+
+
 export const errorHandler = (err, req, res, next) => {
   console.error({
     message: err.message,
@@ -38,8 +41,8 @@ export const errorHandler = (err, req, res, next) => {
   return res.status(statusCode).json(message);
 }
 
-export const notFound = (req, res) => {
-  res.status(404).json({
-    message: `Route not found: ${req.method} ${req.originalUrl}`,
-  });
+export const notFound = (req, res, next) => {
+  next(
+    new AppError(`Route not found: ${req.method} ${req.originalUrl}`, 404)
+  );
 }
