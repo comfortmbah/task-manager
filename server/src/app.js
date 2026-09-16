@@ -7,8 +7,11 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import pool from "../config/db.js";
 import helmet from "helmet";
 import { apiLimiter } from "./middleware/rateLimiter.js";
+import { requestId } from "./middleware/requestId.js";
 
 const app = express();
+
+app.use(requestId);
 
 app.use(helmet());
 
