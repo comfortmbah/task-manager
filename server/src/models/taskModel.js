@@ -25,8 +25,7 @@ export const createTask = async (text, userId) => {
 export const updateTask = async (id, completed, userId) => {
   const result = await pool.query(
     `UPDATE tasks
-    SET completed = $1,
-        updated_at = CURRENT_TIMESTAMP
+    SET completed = $1
     WHERE id = $2
     AND user_id = $3
     RETURNING *`,
