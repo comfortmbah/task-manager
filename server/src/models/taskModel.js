@@ -1,14 +1,29 @@
 import pool from "../../config/db.js";
 
-export const getAllTasks = async (userId, limit, offset) => {
-  const result = await pool.query(
-    `SELECT * FROM tasks 
-     WHERE user_id = $1
-     ORDER BY created_at ASC, id ASC
-     LIMIT $2
-     OFFSET $3`,
-    [userId, limit, offset]
-  );
+export const getAllTasks = async (userId, limit, offset, status) => {
+  let query = `
+  SELECT * FROM tasks
+  WHERE user_id = $1
+  `;
+
+  const values = [userId];
+
+  if (status === "active") {
+    query += `AND completed = false`;
+  }
+
+  if (status === "completed") {
+    query += `AND completed = true`;
+  }
+
+  query += `
+  ORDER BY created_at ASC, id ASC
+  LIMIT $2
+  OFFSET $3`;
+
+  values.push(limit, offset);
+
+  const result = await pool.query(query, values);
   
   return result.rows;
 };
