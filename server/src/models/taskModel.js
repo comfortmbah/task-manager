@@ -87,7 +87,7 @@ export const deleteCompletedTask = async (userId) => {
   return result.rows;
 }
 
-export const getTaskCount = async (userId, status) => {
+export const getTaskCount = async (userId, status, search) => {
   let query =`
     SELECT COUNT(*)
     FROM tasks
@@ -101,6 +101,11 @@ export const getTaskCount = async (userId, status) => {
     
   if (status === "completed") {
     query += ` AND completed = true`;
+  }
+
+  if (search) {
+    values.push(`%${search}%`);
+    query += ` AND text ILIKE $${values.length}`;
   }
 
   const result = await pool.query(query, values);
