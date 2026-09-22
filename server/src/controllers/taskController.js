@@ -19,6 +19,8 @@ export const getTasks = async (req, res) => {
       limit,
       total,
       totalPages,
+      hasNextPage: page < totalPages,
+      hasPreviousPage: page > 1,
     },
   });
 };
