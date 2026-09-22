@@ -7,7 +7,9 @@ export const validateTaskStatus = (req, res, next) => {
     return next();
   }
 
-  if (!["active", "completed"].includes(status)) {
+  const normalizedStatus = status.trim().toLowerCase();
+
+  if (!["active", "completed"].includes(normalizedStatus)) {
     throw new AppError("Status must be either active or completed", 400);
   }
 

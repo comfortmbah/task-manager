@@ -6,7 +6,7 @@ export const getTasks = async (req, res) => {
 
   const { page, limit, offset } = req.pagination;
 
-  const { status } = req.query;
+  const status = req.query.status?.trim().toLowerCase();
 
   const tasks = await getAllTasks(userId, limit, offset, status);
 
