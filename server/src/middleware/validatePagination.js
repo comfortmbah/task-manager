@@ -11,7 +11,7 @@ export const validatePagination = (req, res, next) => {
   }
 
   if (!Number.isInteger(limitNumber) || limitNumber < 1 || limitNumber > 100) {
-    throw new AppError("Limit must be an integer between 1 and 100");
+    throw new AppError("Limit must be an integer between 1 and 100", 400);
   }
 
   req.pagination = {
