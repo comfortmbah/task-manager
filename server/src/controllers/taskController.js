@@ -10,7 +10,7 @@ export const getTasks = async (req, res) => {
 
   const tasks = await getAllTasks(userId, limit, offset, status);
 
-  const total = await getTaskCount(userId);
+  const total = await getTaskCount(userId, status);
 
   const totalPages = Math.ceil(total / limit);
 

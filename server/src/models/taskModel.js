@@ -82,13 +82,23 @@ export const deleteCompletedTask = async (userId) => {
   return result.rows;
 }
 
-export const getTaskCount = async (userId) => {
-  const result = await pool.query(`
+export const getTaskCount = async (userId, status) => {
+  let query =`
     SELECT COUNT(*)
     FROM tasks
-    WHERE user_id = $1`,
-    [userId]
-  );
+    WHERE user_id = $1`;
+
+  const values = [userId];
+
+  if (status === "active") {
+    query += ` AND completed = false`;
+  }
+    
+  if (status === "completed") {
+    query += ` AND completed = true`;
+  }
+
+  const result = await pool.query(query, values);
 
   return Number(result.rows[0].count);
 }
