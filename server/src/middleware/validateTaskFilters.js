@@ -15,3 +15,25 @@ export const validateTaskStatus = (req, res, next) => {
 
   next();
 }
+
+export const validateTaskSearch = (req, res, next) => {
+  const { search } = req.query;
+
+  if (search === undefined) {
+    return next();
+  }
+
+  if (typeof search !== "string") {
+    throw new AppError("Search must be a string", 400);
+  }
+
+  const normalizedSearch = search.trim();
+
+  if (normalizedSearch.length > 100) {
+    throw new AppError("Search must not exceed 100 characters", 400);
+  }
+
+  req.taskSearch = normalizedSearch;
+
+  next();
+}
