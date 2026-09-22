@@ -9,12 +9,18 @@ function getAuthHeaders() {
 }
 
 
+
 export async function getTodos() {
   const response = await fetch(API_URL, {
     headers: getAuthHeaders(),
   });
-  
-  return handleApiResponse(response, "Failed to fetch todos")
+
+  const data = await handleApiResponse(
+    response,
+    "Failed to fetch todos"
+  );
+
+  return data.tasks;
 }
 
 export async function createTodo(text) {
