@@ -17,6 +17,7 @@ export const getTasks = async (req, res) => {
     pagination: {
       page,
       limit,
+      total,
       totalPages,
     },
   });
