@@ -34,3 +34,15 @@ export const findUserById = async (id) => {
 
   return result.rows[0];
 }
+
+export const findUserByEmailPublic = async (email) => {
+  const result = await pool.query(`
+    SELECT id, name, email
+    FROM users
+    WHERE LOWER(email) = LOWER($1)
+    `,
+    [email]
+  );
+
+  return result.rows[0];
+}
