@@ -1,14 +1,26 @@
-import { getAllTasks, createTask, updateTask, deleteTask, deleteCompletedTask } from "../models/taskModel.js";
+import { getAllTasks, createTask, updateTask, deleteTask, deleteCompletedTask, getTaskCount } from "../models/taskModel.js";
 import AppError from "../utils/AppError.js";
 
 export const getTasks = async (req, res) => {
   const userId = req.user.userId;
 
-  const { limit, offset } = req.pagination;
+  const { page, limit, offset } = req.pagination;
 
   const tasks = await getAllTasks(userId, limit, offset);
-  res.json(tasks);
-}
+
+  const total = await getTaskCount(userId);
+
+  const totalPages = Math.ceil(total / limit);
+
+  res.json({
+    tasks,
+    pagination: {
+      page,
+      limit,
+      totalPages,
+    },
+  });
+};
 
 export const createTaskController = async (req, res) => {
   const { text } = req.body;
