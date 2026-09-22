@@ -8,9 +8,11 @@ export const getTasks = async (req, res) => {
 
   const status = req.query.status?.trim().toLowerCase();
 
-  const tasks = await getAllTasks(userId, limit, offset, status);
+  const search = req.taskSearch;
 
-  const total = await getTaskCount(userId, status);
+  const tasks = await getAllTasks(userId, limit, offset, status, search);
+
+  const total = await getTaskCount(userId, status, search);
 
   const totalPages = Math.ceil(total / limit);
 
