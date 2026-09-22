@@ -3,7 +3,10 @@ import AppError from "../utils/AppError.js";
 
 export const getTasks = async (req, res) => {
   const userId = req.user.userId;
-  const tasks = await getAllTasks(userId);
+
+  const { limit, offset } = req.pagination;
+
+  const tasks = await getAllTasks(userId, limit, offset);
   res.json(tasks);
 }
 
