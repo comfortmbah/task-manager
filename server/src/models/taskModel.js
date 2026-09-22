@@ -4,7 +4,7 @@ export const getAllTasks = async (userId, limit, offset) => {
   const result = await pool.query(
     `SELECT * FROM tasks 
      WHERE user_id = $1
-     ORDER BY id ASC
+     ORDER BY created_at ASC, id ASC
      LIMIT $2
      OFFSET $3`,
     [userId, limit, offset]
