@@ -4,11 +4,12 @@ import asyncHandler from "../utils/asyncHandler.js";
 import { validateTaskId, validateTaskUpdate, validateTaskCreation } from "../middleware/validateTask.js";
 import { validatePagination } from "../middleware/validatePagination.js";
 import { validateTaskStatus, validateTaskSearch } from "../middleware/validateTaskFilters.js";
+import { validateTaskSort } from "../middleware/validateTaskSort.js";
 import { getTasks, createTaskController, updateTaskController, deleteTaskController, deleteCompletedTasksController } from "../controllers/taskController.js";
 
 const router = express.Router();
 
-router.get("/", authenticate, validatePagination, validateTaskStatus, validateTaskSearch, asyncHandler(getTasks));
+router.get("/", authenticate, validatePagination, validateTaskStatus, validateTaskSearch, validateTaskSort, asyncHandler(getTasks));
 
 router.post("/", authenticate, validateTaskCreation, asyncHandler(createTaskController));
 
