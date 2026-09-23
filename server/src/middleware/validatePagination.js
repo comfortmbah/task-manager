@@ -5,6 +5,7 @@ export const validatePagination = (req, res, next) => {
 
   const pageNumber = Number(page);
   const limitNumber = Number(limit);
+  const MAX_PAGE = 1000;
 
   if (!Number.isInteger(pageNumber) || pageNumber < 1) {
     throw new AppError("Page must be a positive integer", 400);
@@ -12,6 +13,10 @@ export const validatePagination = (req, res, next) => {
 
   if (!Number.isInteger(limitNumber) || limitNumber < 1 || limitNumber > 100) {
     throw new AppError("Limit must be an integer between 1 and 100", 400);
+  }
+
+  if (pageNumber > MAX_PAGE) {
+    throw new AppError(`Page must not exceed ${MAX_PAGE}`, 400);
   }
 
   req.pagination = {
