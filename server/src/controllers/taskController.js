@@ -6,11 +6,15 @@ export const getTasks = async (req, res) => {
 
   const { page, limit, offset } = req.pagination;
 
+  const sort = req.taskSort;
+
+  const order = req.taskOrder;
+
   const status = req.query.status?.trim().toLowerCase();
 
   const search = req.taskSearch;
 
-  const tasks = await getAllTasks(userId, limit, offset, status, search);
+  const tasks = await getAllTasks(userId, limit, offset, status, search, sort, order);
 
   const total = await getTaskCount(userId, status, search);
 

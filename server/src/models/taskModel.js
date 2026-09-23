@@ -1,6 +1,6 @@
 import pool from "../../config/db.js";
 
-export const getAllTasks = async (userId, limit, offset, status, search) => {
+export const getAllTasks = async (userId, limit, offset, status, search, sort, order) => {
   let query = `
   SELECT * FROM tasks
   WHERE user_id = $1
@@ -24,7 +24,7 @@ export const getAllTasks = async (userId, limit, offset, status, search) => {
   values.push(limit, offset);
 
   query += `
-  ORDER BY created_at ASC, id ASC
+  ORDER BY ${sort} ${order}, id ASC
   LIMIT $${values.length - 1}
   OFFSET $${values.length}`;
 
