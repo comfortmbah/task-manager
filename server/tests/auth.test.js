@@ -14,6 +14,27 @@ describe("POST /api/users", () => {
       message: "Name, email and password are required",
     });
   });
+
+  it("should register a new user successfully", async () => {
+    const response = await request(app)
+    .post("/api/users")
+    .send({
+      name: "Test user",
+      email: "testuser@example.com",
+      password: "password123"
+    });
+
+    expect(response.status).toBe(201);
+
+    expect(response.body.user).toMatchObject({
+      name: "Test user",
+      email: "testuser@example.com",
+    });
+
+    expect(response.body.user).not.toHaveProperty("password_hash");
+
+    expect(response.body).toHaveProperty("token");
+  });
 });
 
 describe("POST /api/users/login", () => {
