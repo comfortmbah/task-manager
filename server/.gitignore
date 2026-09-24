@@ -1,3 +1,4 @@
 node_modules/
 .env
 .env.test
+task_flow_schema.sql
