@@ -75,7 +75,7 @@ export const deleteCompletedTask = async (userId) => {
   try {
     await client.query("BEGIN");
 
-    await client.query(
+    const deletedResult = await client.query(
       `DELETE FROM tasks
       WHERE completed = true
       AND user_id = $1`,
@@ -90,7 +90,10 @@ export const deleteCompletedTask = async (userId) => {
     );
 
     await client.query("COMMIT");
-    return result.rows;
+    return {
+      tasks: result.rows,
+      deletedCount: deletedResult.rowCount,
+    };
   } catch (error) {
     await client.query("ROLLBACK");
     throw error;
