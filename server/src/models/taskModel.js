@@ -70,21 +70,33 @@ export const deleteTask = async (id, userId) => {
 }
 
 export const deleteCompletedTask = async (userId) => {
-  await pool.query(
-    `DELETE FROM tasks
-    WHERE completed = true
-    AND user_id = $1`,
-    [userId]
-  );
+  const client = await pool.connect();
 
-  const result = await pool.query(
-    `SELECT * FROM tasks
-    WHERE user_id = $1
-    ORDER BY id ASC`,
-    [userId]
-  );
+  try {
+    await client.query("BEGIN");
 
-  return result.rows;
+    await client.query(
+      `DELETE FROM tasks
+      WHERE completed = true
+      AND user_id = $1`,
+      [userId]
+    );
+
+    const result = await client.query(
+      `SELECT * FROM tasks
+      WHERE user_id = $1
+      ORDER BY id ASC`,
+      [userId]
+    );
+
+    await client.query("COMMIT");
+    return result.rows;
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 export const getTaskCount = async (userId, status, search) => {
