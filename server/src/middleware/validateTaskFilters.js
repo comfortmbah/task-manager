@@ -29,6 +29,10 @@ export const validateTaskSearch = (req, res, next) => {
 
   const normalizedSearch = search.trim();
 
+  if (!normalizedSearch) {
+    throw new AppError("Search cannot be empty", 400);
+  }
+
   if (normalizedSearch.length > 100) {
     throw new AppError("Search must not exceed 100 characters", 400);
   }
