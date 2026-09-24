@@ -1,6 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import request from "supertest";
 import app from "../src/app.js";
+import pool from "../config/db.js";
+
+afterEach(async () => {
+  await pool.query(
+    "DELETE FROM users WHERE email = $1",
+    ["testuser@example.com"]
+  );
+});
 
 describe("POST /api/users", () => {
   it("should return 400 when required fields are missing", async () => {

@@ -7,7 +7,7 @@
     "start": "node server.js",
     "migrate": "node-pg-migrate up",
     "migrate:down": "node-pg-migrate down",
-    "test": "vitest"
+    "test": "vitest --mode test"
   },
   "keywords": [],
   "author": "",
