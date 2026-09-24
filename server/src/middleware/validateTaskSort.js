@@ -5,7 +5,9 @@ export const validateTaskSort = (req, res, next) => {
  
   const allowedSortFields = ["created_at", "updated_at", "text"];
 
-  if (!allowedSortFields.includes(sort)) {
+  const normalizedSort = sort.toLowerCase();
+
+  if (!allowedSortFields.includes(normalizedSort)) {
     throw new AppError("Sort must be created_at, updated_at, or text", 400);
   }
 
@@ -15,7 +17,7 @@ export const validateTaskSort = (req, res, next) => {
     throw new AppError("Order must be either asc or desc", 400);
   }
 
-  req.taskSort = sort;
+  req.taskSort = normalizedSort;
   req.taskOrder = normalizedOrder;
 
   next();
