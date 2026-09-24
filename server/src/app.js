@@ -22,7 +22,7 @@ app.use(cors({
 
 app.use(express.json({ limit: "10kb" }));
 
-app.use("/health", healthRoutes);
+app.use("/api/health", healthRoutes);
 
 app.use("/api", apiLimiter);
 
