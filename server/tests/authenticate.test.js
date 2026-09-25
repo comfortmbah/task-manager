@@ -13,4 +13,16 @@ describe("JWT authentication", () => {
       message: "Authentication required"
     });
   });
+
+  it("should return 401 when authorization header is invalid", async () => {
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", "InvalidToken")
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid authorization header"
+    });
+  });
 });
