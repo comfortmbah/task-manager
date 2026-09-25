@@ -171,5 +171,22 @@ describe("JWT authentication", () => {
       WHERE email IN ($1, $2)`,
       ["tobi@example.com", "sunday@example.com"]
     )
-  }) 
+  })
+  
+  it("should return 404 when the authenticated user no longer exists", async () => {
+    const token = jwt.sign(
+      { userId: 999999 },
+      process.env.JWT_SECRET
+    );
+
+    const response = await request(app)
+    .get("/api/users/me")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "User not found",
+    })
+  })
 });
