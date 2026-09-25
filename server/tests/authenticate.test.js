@@ -86,4 +86,21 @@ describe("JWT authentication", () => {
       message: "Invalid or expired token"
     })
   })
+
+  it("should return 401 when bearer scheme is missing", async () => {
+    const token = jwt.sign(
+      { userId: 1 },
+      process.env.JWT_SECRET
+    );
+
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", token);
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid authorization header"
+    })
+  })
 });
