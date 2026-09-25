@@ -61,4 +61,19 @@ describe("POST /api/users/login", () => {
       message: "Invalid email or password",
     });
   });
+
+  it("should return 401 when the email does not exist", async () => {
+    const response = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid email or password",
+    });
+  });
 });
