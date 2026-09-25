@@ -25,4 +25,16 @@ describe("JWT authentication", () => {
       message: "Invalid authorization header"
     });
   });
+
+  it("should return 401 when the token is invalid", async () => {
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", "Bearer invalidtoken")
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid or expired token"
+    });
+  });
 });
