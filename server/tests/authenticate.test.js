@@ -189,4 +189,16 @@ describe("JWT authentication", () => {
       message: "User not found",
     })
   })
+
+  it("should return 401 when bearer token is missing", async () => {
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", "Bearer");
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid authorization header"
+    })
+  })
 });
