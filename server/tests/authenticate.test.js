@@ -69,4 +69,21 @@ describe("JWT authentication", () => {
       message: "Invalid or expired token"
     })
   })
+
+  it("should return 401 when the token was signed with the wrong secret", async () => {
+    const token = jwt.sign(
+      { userId: 1 },
+      "wrong-secret"
+    );
+
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid or expired token"
+    })
+  })
 });
