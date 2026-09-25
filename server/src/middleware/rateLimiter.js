@@ -1,8 +1,10 @@
 import rateLimit from 'express-rate-limit';
 
+const isTest = process.env.NODE_ENV === "test";
+
 export const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 5,
+  limit: isTest ? 1000 : 5,
   standardHeaders: "draft-8",
   legacyHeaders: false,
   message: {
@@ -12,7 +14,7 @@ export const loginLimiter = rateLimit({
 
 export const registrationLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  limit: 10,
+  limit: isTest ? 1000 : 10,
   standardHeaders: "draft-8",
   legacyHeaders: false,
   message: {
@@ -22,7 +24,7 @@ export const registrationLimiter = rateLimit({
 
 export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 100,
+  limit: isTest ? 1000 : 100,
   standardHeaders: "draft-8",
   legacyHeaders: false,
   message: {
