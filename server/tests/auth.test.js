@@ -46,4 +46,19 @@ describe("POST /api/users/login", () => {
 
     expect(response.body).toHaveProperty("token");
   });
+
+  it("should return 401 when the password is incorrect ", async () => {
+    const response = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: "testuser@example.com",
+      password: "password999",
+    });
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Invalid email or password",
+    });
+  });
 });
