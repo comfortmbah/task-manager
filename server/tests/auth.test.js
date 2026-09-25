@@ -90,4 +90,18 @@ describe("POST /api/users/login", () => {
       message: "Email and password are required",
     });
   });
+
+  it("should return 400 when password is missing", async () => {
+    const response = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: "testuser@example.com",
+    });
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Email and password are required",
+    });
+  });
 });
