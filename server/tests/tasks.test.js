@@ -3,6 +3,7 @@ import request from "supertest";
 import app from "../src/app.js";
 import pool from "../config/db.js";
 import { createUser } from "../src/models/userModel.js";
+import { text } from "express";
 
 describe("GET /api/tasks", () => {
   let user;
@@ -77,4 +78,21 @@ describe("GET /api/tasks", () => {
       (task) => task.text === "second user private task"
     )).toBe(false);
   })
+
+  it("should create a task for the authenticated user", async () => {
+    const response = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "My new taskflow task",
+    });
+
+    expect(response.status).toBe(201);
+
+    expect(response.body).toMatchObject({
+      text: "My new taskflow task",
+      completed: false,
+      user_id: user.id,
+    });
+  });
 });
