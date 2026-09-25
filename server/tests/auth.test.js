@@ -76,4 +76,18 @@ describe("POST /api/users/login", () => {
       message: "Invalid email or password",
     });
   });
+
+  it("should return 400 when email is missing", async () => {
+    const response = await request(app)
+    .post("/api/users/login")
+    .send({
+      password: "password123",
+    });
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Email and password are required",
+    });
+  });
 });
