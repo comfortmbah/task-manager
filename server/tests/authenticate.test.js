@@ -103,4 +103,30 @@ describe("JWT authentication", () => {
       message: "Invalid authorization header"
     })
   })
+
+  it("should allow an authenticated user to access protected routes", async () => {
+    await request(app)
+    .post("/api/users")
+    .send({
+      name: "Tobi Amusan",
+      email: "tobi@example.com",
+      password: "password321",
+    });
+
+    const loginResponse = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: "tobi@example.com",
+      password: "password321",
+    });
+
+    const token = loginResponse.body.token;
+
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+
+
+    expect(response.status).toBe(200);
+  });
 });
