@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import request from "supertest";
 import app from "../src/app.js";
+import jwt from "jsonwebtoken";
 
 describe("JWT authentication", () => {
   it("should return 401 when authorization header is missing", async () => {
@@ -37,4 +38,17 @@ describe("JWT authentication", () => {
       message: "Invalid or expired token"
     });
   });
+
+  it("should allow access with a valid JWT", async () => {
+    const token = jwt.sign(
+      { userId: 1 },
+      process.env.JWT_SECRET
+    );
+
+    const response = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).not.toBe(401);
+  })
 });
