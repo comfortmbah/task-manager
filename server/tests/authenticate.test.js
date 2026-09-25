@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import request from "supertest";
 import app from "../src/app.js";
 import jwt from "jsonwebtoken";
+import pool from '../config/db.js';
 
 describe("JWT authentication", () => {
   it("should return 401 when authorization header is missing", async () => {
@@ -129,4 +130,46 @@ describe("JWT authentication", () => {
 
     expect(response.status).toBe(200);
   });
+
+  it("should return the current user with a valid jwt", async () => {
+    await request(app)
+    .post("/api/users")
+    .send({
+      name: "sunday",
+      email: "sunday@example.com",
+      password: "password123",
+    });
+
+    const loginResponse = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: "sunday@example.com",
+      password: "password123",
+    });
+
+    const token = loginResponse.body.token;
+
+    const response = await request(app)
+    .get("/api/users/me")
+    .set("Authorization", `Bearer ${token}`)
+
+
+    expect(response.status).toBe(200);
+
+    expect(response.body).toEqual({
+      user: {
+        id: expect.any(Number),
+        name: "sunday",
+        email: "sunday@example.com",
+      },
+    })
+  });
+
+  afterEach(async () => {
+    await pool.query(`
+      DELETE FROM users
+      WHERE email IN ($1, $2)`,
+      ["tobi@example.com", "sunday@example.com"]
+    )
+  }) 
 });
