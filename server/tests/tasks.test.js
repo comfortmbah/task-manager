@@ -196,4 +196,30 @@ describe("GET /api/tasks", () => {
       message: "Invalid task ID",
     });
   });
+
+  it("should return 400 when completed is not a boolean", async () => {
+    const createResponse = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Task validation test",
+    });
+
+    console.log("CREATE RESPONSE:", createResponse.body);
+
+    const taskId = createResponse.body.id;
+
+    const response = await request(app)
+    .patch(`/api/tasks/${taskId}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: "true",
+    });
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Completed must be a boolean",
+    });
+  });
 });
