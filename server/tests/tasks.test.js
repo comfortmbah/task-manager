@@ -123,4 +123,18 @@ describe("GET /api/tasks", () => {
       message: "Task text is required",
     });
   });
+
+  it("should return 401 when creating a task without authentication", async () => {
+    const response = await request(app)
+    .post("/api/tasks")
+    .send({
+      text: "Unauthorized task",
+    });
+
+    expect(response.status).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Authentication required",
+    });
+  });
 });
