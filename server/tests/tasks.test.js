@@ -166,4 +166,19 @@ describe("GET /api/tasks", () => {
       user_id: user.id,
     });
   });
+
+  it("should return 404 when updating a task that does not exist", async () => {
+    const response = await request(app)
+    .patch("/api/tasks/888888")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: true,
+    });
+
+    expect(response.status).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "Task not found",
+    });
+  });
 });
