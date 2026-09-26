@@ -137,4 +137,33 @@ describe("GET /api/tasks", () => {
       message: "Authentication required",
     });
   });
+
+  it("should update a task for the authenticated user", async () => {
+    const createResponse = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Task to update",
+    });
+
+    console.log("CREATE RESPONSE:", createResponse.body);
+
+    const taskId = createResponse.body.id;
+
+    const response = await request(app)
+    .patch(`/api/tasks/${taskId}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: true,
+    });
+
+    expect(response.status).toBe(200);
+
+    expect(response.body).toMatchObject({
+      id: taskId,
+      text: "Task to update",
+      completed: true,
+      user_id: user.id,
+    });
+  });
 });
