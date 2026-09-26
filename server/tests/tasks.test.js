@@ -108,4 +108,19 @@ describe("GET /api/tasks", () => {
       message: "Task text must be a string",
     });
   });
+
+  it("should return 400 when task text is blank", async () => {
+    const response = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "   ",
+    });
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Task text is required",
+    });
+  });
 });
