@@ -181,4 +181,19 @@ describe("GET /api/tasks", () => {
       message: "Task not found",
     });
   });
+
+  it("should return 400 when task ID is invalid", async () => {
+    const response = await request(app)
+    .patch("/api/tasks/abc")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: true,
+    });
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Invalid task ID",
+    });
+  });
 });
