@@ -243,4 +243,16 @@ describe("GET /api/tasks", () => {
       message: "Task deleted successfully",
     });
   });
+
+  it("should return 404 when deleting a task that does not exist", async () => {
+    const response = await request(app)
+    .delete("/api/tasks/999999")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "Task not found",
+    });
+  });
 });
