@@ -222,4 +222,25 @@ describe("GET /api/tasks", () => {
       message: "Completed must be a boolean",
     });
   });
+
+  it("should delete a task for the authenticated user", async () => {
+    const createResponse = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Task to delete",
+    });
+
+    const taskId = createResponse.body.id;
+
+    const response = await request(app)
+    .delete(`/api/tasks/${taskId}`)
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+
+    expect(response.body).toEqual({
+      message: "Task deleted successfully",
+    });
+  });
 });

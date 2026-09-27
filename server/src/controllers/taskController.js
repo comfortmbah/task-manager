@@ -66,7 +66,9 @@ export const deleteTaskController = async (req, res) => {
     throw new AppError("Task not found", 404);
   }
 
-  res.json(task);
+  res.json({
+    message: "Task deleted successfully",
+  });
 }
 
 export const deleteCompletedTasksController = async (req, res) => {
