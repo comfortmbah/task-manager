@@ -303,4 +303,30 @@ describe("GET /api/tasks", () => {
       message: "Invalid task ID",
     });
   });
+
+  it ("should respect the pagination limit", async () => {
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Pagination task 1"
+    });
+
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Pagination task 2"
+    });
+
+    const response = await request(app)
+    .get("/api/tasks?limit=1")
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(response.status).toBe(200);
+
+    expect(response.body.tasks).toHaveLength(1);
+
+    expect(response.body.pagination.limit).toBe(1);
+  })
 });
