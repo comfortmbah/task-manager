@@ -367,4 +367,32 @@ describe("GET /api/tasks", () => {
       completed: true,
     });
   });
+
+  it("should search tasks by text", async () => {
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Learn Testing",
+    });
+
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Go shopping",
+    });
+
+    const response = await request(app)
+    .get("/api/tasks?search=Testing")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+
+    expect(response.body.tasks).toHaveLength(1);
+
+    expect(response.body.tasks[0]).toMatchObject({
+      text: "Learn Testing",
+    });
+  });
 });
