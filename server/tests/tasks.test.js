@@ -255,4 +255,40 @@ describe("GET /api/tasks", () => {
       message: "Task not found",
     });
   });
+
+  it("should return 404 when deleting another user's task", async () => {
+    const user2 = await createUser(
+      "user20",
+      "user20@example.com",
+      "password123",
+    );
+
+    const login2 = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: "user20@example.com",
+      password: "password123",
+    });
+
+    const token2 = login2.body.token;
+
+    const createResponse = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token2}`)
+    .send({
+      text: "Second user's private task",
+    });
+
+    const taskId = createResponse.body.id;
+
+    const response = await request(app)
+    .delete(`/api/tasks/${taskId}`)
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "Task not found",
+    })
+  })
 });
