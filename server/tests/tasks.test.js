@@ -4,6 +4,7 @@ import app from "../src/app.js";
 import pool from "../config/db.js";
 import { createUser } from "../src/models/userModel.js";
 import { text } from "express";
+import { resolve } from "dns";
 
 describe("GET /api/tasks", () => {
   let user;
@@ -395,4 +396,32 @@ describe("GET /api/tasks", () => {
       text: "Learn Testing",
     });
   });
+
+  it("should sort tasks by creation date", async () => {
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Older task",
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Newer task",
+    });
+
+    const response = await request(app)
+    .get("/api/tasks?sort=created_at&order=desc")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+
+    expect(response.body.tasks[0].text).toBe("Newer task");
+
+    expect(response.body.tasks[1].text).toBe("Older task");
+  })
 });
