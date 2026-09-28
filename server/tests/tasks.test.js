@@ -258,15 +258,15 @@ describe("GET /api/tasks", () => {
 
   it("should return 404 when deleting another user's task", async () => {
     const user2 = await createUser(
-      "user20",
-      "user20@example.com",
+      "another user",
+      `another-${Date.now()}@example.com`,
       "password123",
     );
 
     const login2 = await request(app)
     .post("/api/users/login")
     .send({
-      email: "user20@example.com",
+      email: user2.email,
       password: "password123",
     });
 
@@ -291,4 +291,16 @@ describe("GET /api/tasks", () => {
       message: "Task not found",
     })
   })
+
+  it("should return 400 when deleting a task with an invalid ID", async () => {
+    const response = await request(app)
+    .delete("/api/tasks/abc")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Invalid task ID",
+    });
+  });
 });
