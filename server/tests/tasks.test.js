@@ -329,4 +329,42 @@ describe("GET /api/tasks", () => {
 
     expect(response.body.pagination.limit).toBe(1);
   })
+
+  it("should filter tasks by completed status", async () => {
+    const firstTask = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Completed task",
+    });
+
+    const taskId = firstTask.body.id;
+
+    await request(app)
+    .patch(`/api/tasks/${taskId}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: true,
+    });
+
+    await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Active task",
+    });
+
+    const response = await request(app)
+    .get("/api/tasks?status=completed")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+
+    expect(response.body.tasks).toHaveLength(1);
+
+    expect(response.body.tasks[0]).toMatchObject({
+      text: "Completed task",
+      completed: true,
+    });
+  });
 });
