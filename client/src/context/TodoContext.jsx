@@ -116,11 +116,10 @@ export const TodoProvider = ({ children }) => {
       try {
         setActionLoading(true);
 
-        const remainingTodos = await deleteCompletedTodos();
+        await deleteCompletedTodos();
 
         dispatch({
-          type: "SET_TODOS",
-          payload: remainingTodos,
+          type: "CLEAR_COMPLETED",
         })
 
         setError("");
@@ -159,8 +158,6 @@ TodoProvider.propTypes = {
 
 export function useTodo() {
   const context = useContext(TodoContext);
-
-  console.log("TodoContext:", context);
 
   if (context === undefined) {
     throw new Error("useTodo must be used inside TodoProvider");
