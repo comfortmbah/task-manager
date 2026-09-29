@@ -3,7 +3,7 @@ import request from "supertest";
 import app from "../src/app.js";
 import pool from "../config/db.js";
 import { createUser } from "../src/models/userModel.js";
-import { text } from "express";
+import { response, text } from "express";
 import { resolve } from "dns";
 
 describe("GET /api/tasks", () => {
@@ -424,4 +424,78 @@ describe("GET /api/tasks", () => {
 
     expect(response.body.tasks[1].text).toBe("Older task");
   })
+});
+
+
+
+describe("DELETE /api/tasks/completed", () => {
+  let token;
+  const email = `user-${Date.now()}@example.com`;
+  const password = "password123";
+
+  beforeEach(async () => {
+  
+
+  const registerResponse = await request(app)
+    .post("/api/users")
+    .send({
+      name: "Test User",
+      email,
+      password,
+    });
+
+  console.log("REGISTER RESPONSE:", registerResponse.status, registerResponse.body);
+
+  const loginResponse = await request(app)
+    .post("/api/users/login")
+    .send({
+      email,
+      password,
+    });
+
+  console.log("LOGIN RESPONSE:", loginResponse.status, loginResponse.body);
+
+  token = loginResponse.body.token;
+ });
+
+  it("should delete all completed tasks for the authenticated user", async () => {
+    const firstTask = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Completed task 1",
+    });
+
+    const secondTask = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      text: "Completed task 2",
+    });
+
+    await request(app)
+    .patch(`/api/tasks/${firstTask.body.id}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: true,
+    });
+
+    await request(app)
+    .patch(`/api/tasks/${secondTask.body.id}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      completed: true,
+    });
+
+    const response = await request(app)
+    .delete("/api/tasks/completed")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+
+    expect(response.body).toEqual({
+      message: "Completed tasks deleted successfully",
+      deletedCount: 2,
+    });
+  });
 });
