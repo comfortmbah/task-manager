@@ -430,11 +430,12 @@ describe("GET /api/tasks", () => {
 
 describe("DELETE /api/tasks/completed", () => {
   let token;
-  const email = `user-${Date.now()}@example.com`;
-  const password = "password123";
 
   beforeEach(async () => {
-  
+  const email = `user-${Date.now()}-${Math.random()
+    .toString(36)
+    .slice(2, 8)}@example.com`;
+  const password = "password123";
 
   const registerResponse = await request(app)
     .post("/api/users")
@@ -498,4 +499,55 @@ describe("DELETE /api/tasks/completed", () => {
       deletedCount: 2,
     });
   });
+
+  it("should only delete completed tasks belonging to the authenticated user", async () => {
+    const secondUserEmail = `seconduser-${Date.now()}-${Math.random()
+    .toString(36)
+    .slice(2, 8)}@example.com`;
+
+    const secondUser = await createUser(
+      "second user",
+      secondUserEmail,
+      "password123",
+    );
+
+    const secondLogin = await request(app)
+    .post("/api/users/login")
+    .send({
+      email: secondUserEmail,
+      password: "password123",
+    });
+
+    const secondToken = secondLogin.body.token;
+
+    const secondTask = await request(app)
+    .post("/api/tasks")
+    .set("Authorization", `Bearer ${secondToken}`)
+    .send({
+      text: "second user completed task"
+    });
+
+    await request(app)
+    .patch(`/api/tasks/${secondTask.body.id}`)
+    .set("Authorization", `Bearer ${secondToken}`)
+    .send({
+      completed: true,
+    });
+
+    const response = await request(app)
+    .delete("/api/tasks/completed")
+    .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+
+    expect(response.body.deletedCount).toBe(0);
+
+    const secondUserTasks = await request(app)
+    .get("/api/tasks")
+    .set("Authorization", `Bearer ${secondToken}`);
+
+    expect(secondUserTasks.body.tasks).toHaveLength(1);
+
+    expect(secondUserTasks.body.tasks[0].text).toBe("second user completed task");
+  })
 });
