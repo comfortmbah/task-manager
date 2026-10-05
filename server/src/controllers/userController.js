@@ -15,7 +15,7 @@ export const createUserController = async (req, res) => {
   const token = jwt.sign(
     { userId: user.id },
     process.env.JWT_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: "1h" },
   );
 
   res.status(201).json({
@@ -40,7 +40,7 @@ export const loginUserController = async (req, res) => {
   }
 
   const token = jwt.sign(
-    {userId: user.id}, process.env.JWT_SECRET, { expiresIn: "1h" }
+    {userId: user.id}, process.env.JWT_SECRET, { expiresIn: "1h" },
   );
 
   res.json({ token });
